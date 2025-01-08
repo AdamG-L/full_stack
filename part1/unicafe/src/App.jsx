@@ -9,7 +9,28 @@ const Button = ({ onClick, txt }) => {
 }
 
 const Statistics = ({ good, neutral, bad }) => {
-  return <p>good {good}<br />neutral {neutral}<br />bad {bad}</p>
+  const total = good + neutral + bad
+  if (total == 0) {
+    return <p>No feedback given</p>
+  }
+  else {
+    return (
+      <table>
+        <tbody>
+          <StatisticsLine txt="good" val={good} />
+          <StatisticsLine txt="neutral" val={neutral} />
+          <StatisticsLine txt="bad" val={bad} />
+          <StatisticsLine txt="all" val={total} />
+          <StatisticsLine txt="average" val={(bad * -1 + good) / total} />
+          <StatisticsLine txt="positive" val={`${good / total * 100} %`} />
+        </tbody>
+      </table>
+    )
+  }
+}
+
+const StatisticsLine = ({ txt, val }) => {
+  return <tr><td>{txt}</td><td>{val}</td></tr>
 }
 
 const App = () => {
