@@ -32,13 +32,11 @@ const App = () => {
     if (map.size === 0 || search === "") {
       return
     }
-    console.log("Use effect called")
     displayCountries()
   }, [search, map])
 
   // Helper Methods
   const displayCountries = () => {
-    console.log("Display countries called")
     const names = []
     // Gather relevant countries
     map.forEach((value, key) => {
@@ -48,7 +46,6 @@ const App = () => {
     })
     const res = []
     res.push(names.length)
-    console.log("Length ", names.length)
     if (names.length > 10) {
       res.push("Too many matches, please refine filter!")
     }
@@ -70,7 +67,7 @@ const App = () => {
       <div>
         find countries <input value={search} onChange={handleSearchChange} />
       </div>
-      <Display display={display} />
+      <Display display={display} setSearch={setSearch} />
     </div>
   );
 };

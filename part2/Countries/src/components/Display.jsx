@@ -1,4 +1,18 @@
-const Display = ({ display }) => {
+import Services from '../services/Services'
+import { useState, useEffect } from 'react'
+
+const Display = ({ display, setSearch }) => {
+    const [weather, setWeather] = useState(null)
+    const [country, setCountry] = useState(null)
+
+    useEffect(() => {
+        if (country === null) { return }
+        else {
+            Services.getWeather(country.name.common)
+                .then(res => setWeather(res))
+        }
+    }, [country])
+
     if (display.length === 0) {
         return
     }
@@ -7,9 +21,14 @@ const Display = ({ display }) => {
         return display[1]
     }
     else if (display[0] === 1) {
-        //TODO
-        const country = display[1]
-        console.log(country.flags.png)
+        const currentCountry = display[1]
+        // Don't display until country has a valid state
+        if (currentCountry !== country) {
+            setCountry(currentCountry)
+            return
+        }
+        if (weather === null) { return }
+
         return (
             <>
                 <h2>{country.name.common}</h2>
@@ -17,11 +36,15 @@ const Display = ({ display }) => {
                 <p>Population: {country.population}</p>
                 <h2>Spoken Languages</h2>
                 <ul>
-                    {Object.values(country.languages).map(value => 
+                    {Object.values(country.languages).map(value =>
                         <li key={value}>{value}</li>
                     )}
                 </ul>
                 <img src={country.flags.png}></img>
+                <h2>Weather</h2>
+                <p>Temperature: {weather.main.temp}°F</p>
+                <p>{weather.weather[0].main}</p>
+                <img src={'https://openweathermap.org/img/wn/' + weather.weather[0].icon + '@4x.png'}></img>
             </>
         )
     }
@@ -33,7 +56,7 @@ const Display = ({ display }) => {
             <ul>
                 {countries.map(country =>
                     <li key={country}>
-                        {country}
+                        {country} <button onClick={() => setSearch(country)}>Show</button>
                     </li>
                 )}
             </ul>
