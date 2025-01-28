@@ -1,5 +1,7 @@
 const express = require('express')
 const app = express()
+// Set our express app to read data as json
+app.use(express.json())
 
 let notes = [
     {
@@ -36,6 +38,15 @@ app.get('/api/notes/:id', (request, response) => {
     else{
         response.status(404).end()
     }
+})
+
+app.post('/api/notes', (request, response)=>{
+    const maxId = notes.length > 0 
+    // ... converts list to ind. params
+    ? Math.max(...notes.map(n => Number(n.id))) : 0
+    const note = request.body
+    note.id = String(maxId+1)
+    response.json(note)
 })
 
 app.delete('/api/notes/:id', (request, response)=> {
