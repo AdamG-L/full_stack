@@ -4,6 +4,7 @@ const app = express()
 app.use(express.json())
 const cors = require('cors')
 app.use(cors())
+app.use(express.static('dist'))
 
 // Middleware i.e. function run everytime req. recieved
 const requestLogger = (request, response, next) => {
