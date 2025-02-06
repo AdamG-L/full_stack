@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 // Set our express app to read data as json
@@ -39,12 +40,7 @@ let notes = [
 
 const mongoose = require('mongoose')
 
-const password = process.argv[2]
-
-// DO NOT SAVE YOUR PASSWORD TO GITHUB!!
-const url =
-  `mongodb+srv://crowofflight:${password}@cluster0.nubbl.mongodb.net/notesApp
-  // ?retryWrites=true&w=majority&appName=Cluster0`
+const url = process.env.MONGODB_URI
 
 mongoose.set('strictQuery',false)
 mongoose.connect(url)
@@ -56,14 +52,12 @@ const noteSchema = new mongoose.Schema({
 
 const Note = mongoose.model('Note', noteSchema)
 
+
 // Server Requests
-
-app.get('/', (request, response) => {
-    response.send('<h1>Hello World!</h1>')
-})
-
 app.get('/api/notes', (request, response) => {
-    response.json(notes)
+    Note.find({}).then(notes => {
+        response.json(notes)
+      })
 })
 
 app.get('/api/notes/:id', (request, response) => {

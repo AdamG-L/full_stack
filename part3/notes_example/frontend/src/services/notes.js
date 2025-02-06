@@ -9,11 +9,6 @@ const getAll = () => {
     *  within our promise to return only the data portion
     *  as a new promise
     */
-    const nonExisting = {
-        id: 10000,
-        content: 'This note is not saved to server',
-        important: true,
-    }
     return request.then(response => response.data.concat(nonExisting))
 }
 
