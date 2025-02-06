@@ -35,6 +35,29 @@ let notes = [
     }
 ]
 
+//Mongo setup
+
+const mongoose = require('mongoose')
+
+const password = process.argv[2]
+
+// DO NOT SAVE YOUR PASSWORD TO GITHUB!!
+const url =
+  `mongodb+srv://crowofflight:${password}@cluster0.nubbl.mongodb.net/notesApp
+  // ?retryWrites=true&w=majority&appName=Cluster0`
+
+mongoose.set('strictQuery',false)
+mongoose.connect(url)
+
+const noteSchema = new mongoose.Schema({
+  content: String,
+  important: Boolean,
+})
+
+const Note = mongoose.model('Note', noteSchema)
+
+// Server Requests
+
 app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>')
 })
