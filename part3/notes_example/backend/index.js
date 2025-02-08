@@ -76,7 +76,8 @@ app.post('/api/notes', (request, response)=>{
 })
 
 app.put('/api/notes/:id', (request, response, next) => {
-    Note.findByIdAndUpdate(request.params.id, {$set: request.body}, {new: true})
+    Note.findByIdAndUpdate(request.params.id,
+         {$set: request.body}, {new: true})
     .then(updatedNote => {
         response.json(updatedNote)
     })

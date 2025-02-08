@@ -36,33 +36,37 @@ let persons = [
     }
 ]
 
-app.get('/api/persons', (request, response) => {
-    Person.find({}).then(persons=> {
+app.get('/api/persons', (request, response, next) => {
+    Person.find({}).then(persons => {
         response.json(persons)
     })
+        .catch(err => next(err))
 })
 
 app.get('/info', (request, response) => {
     response.send(
-        `<p>Current phonebook contacts: ${persons.length}</p>
+        `<p>Current phonebook contacts: ${Person.length}</p>
         <p> ${new Date()}</p>`
     )
 })
 
-app.get('/api/persons/:id', (request, response) => {
-    Person.findById(request.params.id).then(person => {
-        response.json(person)
-    })
+app.get('/api/persons/:id', (request, response, next) => {
+    Person.findById(request.params.id)
+        .then(person => {
+            response.json(person)
+        })
+        .catch(err => next(err))
 })
 
-app.delete('/api/persons/:id', (request, response) => {
-    const id = request.params.id
-    persons = persons.filter(p => p.id !== id)
-    response.status(204).end()
-
+app.delete('/api/persons/:id', (request, response, next) => {
+    Person.findByIdAndDelete(request.params.id)
+        .then(res => {
+            response.status(204).end()
+        })
+        .catch(err => next(err))
 })
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
     const body = request.body
     if (!body.name) {
         response.status(400).json({
@@ -83,13 +87,36 @@ app.post('/api/persons', (request, response) => {
             name: body.name,
             number: body.number
         })
-        person.save().then(savedPerson =>{
+        person.save().then(savedPerson => {
             response.json(savedPerson)
         })
+            .catch(err => next(err))
     }
+})
+
+app.put('/api/persons/:id', (request, response, next) => {
+    Person.findByIdAndUpdate(request.params.id,
+        { $set: request.body }, { new: true })
+        .then(updatedPerson => {
+            response.json(updatedPerson)
+        })
+        .catch(err => next(err))
 })
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
+
+const errorHandler = (error, request, response, next) => {
+    console.error(error.message)
+
+    if (error.name === 'CastError') {
+        return response.status(400).send({ error: 'malformatted id' })
+    }
+
+    next(error)
+}
+
+// this has to be the last loaded middleware, also all the routes should be registered before this!
+app.use(errorHandler)
