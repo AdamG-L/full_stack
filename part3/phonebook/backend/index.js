@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 app.use(express.json())
@@ -9,6 +10,7 @@ app.use(morgan(':method :url :status :post_data'))
 const cors = require('cors')
 app.use(cors())
 app.use(express.static('dist'))
+const Person = require('./models/person')   // MongoDB code
 
 
 let persons = [
@@ -35,7 +37,9 @@ let persons = [
 ]
 
 app.get('/api/persons', (request, response) => {
-    response.json(persons)
+    Person.find({}).then(persons=> {
+        response.json(persons)
+    })
 })
 
 app.get('/info', (request, response) => {
@@ -46,13 +50,9 @@ app.get('/info', (request, response) => {
 })
 
 app.get('/api/persons/:id', (request, response) => {
-    const id = request.params.id
-    const person = persons.find(p => p.id === id)
-    if (person) {
+    Person.findById(request.params.id).then(person => {
         response.json(person)
-    } else {
-        response.status(404).end()
-    }
+    })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
@@ -79,13 +79,13 @@ app.post('/api/persons', (request, response) => {
             error: "Name already exists"
         })
     } else {
-        const person = {
-            id: String(Math.floor(Math.random() * (10000000 - 1 + 1)) + 1),
+        const person = new Person({
             name: body.name,
             number: body.number
-        }
-        persons = persons.concat(person)
-        response.json(person)
+        })
+        person.save().then(savedPerson =>{
+            response.json(savedPerson)
+        })
     }
 })
 
