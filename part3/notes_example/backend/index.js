@@ -75,10 +75,23 @@ app.post('/api/notes', (request, response)=>{
     })
 })
 
-app.delete('/api/notes/:id', (request, response)=> {
+app.put('/api/notes/:id', (request, response, next) => {
+    Note.findByIdAndUpdate(request.params.id, {$set: request.body}, {new: true})
+    .then(updatedNote => {
+        response.json(updatedNote)
+    })
+    .catch(err => next(err))
+})
+
+app.delete('/api/notes/:id', (request, response, next)=> {
     const id = request.params.id
     notes = notes.filter(note => note.id !== id)
     response.status(204).end()
+    Note.findByIdAndDelete(request.params.id)
+    .then(res => {
+        response.status(204).end()
+    })
+    .catch(err => next(err))
 })
 
 const unknownEndpoint = (request, response) => {
