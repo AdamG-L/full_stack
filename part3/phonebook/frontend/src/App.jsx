@@ -49,9 +49,8 @@ const App = () => {
                 updatedPerson : person))
             updateNotification(`${updatedPerson.name} number updated`)
           })
-          .catch(() => {
-            updateNotification(`${duplicatePerson.name} no longer exists on server`)
-            setPeople(people => people.filter(person => person.id != duplicatePerson.id))
+          .catch((err) => {
+            updateNotification(err.response.data.error)
           })
       }
     }
@@ -65,8 +64,8 @@ const App = () => {
           setNewNum('')
           updateNotification(`${returnedPerson.name} added to contacts`)
         })
-        .catch(person =>
-          updateNotification(`Error adding ${person.name} to server`)
+        .catch(err =>
+          updateNotification(err.response.data.error)
         )
     }
   }

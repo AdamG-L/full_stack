@@ -46,34 +46,39 @@ app.delete('/api/persons/:id', (request, response, next) => {
 app.post('/api/persons', (request, response, next) => {
     const body = request.body
     if (!body.name) {
-        response.status(400).json({
+        return response.status(400).json({
             error: "Name missing"
         })
     }
     else if (!body.number) {
-        response.status(400).json({
+        return response.status(400).json({
             error: "Number missing"
         })
     }
-    else if (persons.find(p => p.name === body.name)) {
-        response.status(400).json({
-            error: "Name already exists"
+
+    Person.findOne({ name: body.name })
+        .then(duplicateName => {
+            if (duplicateName) {
+                return response.status(400).json({
+                    error: "Name already exists"
+                })
+            }
+            const person = new Person({
+                name: body.name,
+                number: body.number
+            })
+            return person.save()
         })
-    } else {
-        const person = new Person({
-            name: body.name,
-            number: body.number
-        })
-        person.save().then(savedPerson => {
-            response.json(savedPerson)
-        })
-            .catch(err => next(err))
-    }
+        .then(savedPerson => response.json(savedPerson))
+        .catch(err => next(err))
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
     Person.findByIdAndUpdate(request.params.id,
-        { $set: request.body }, { new: true })
+        { $set: request.body }, {
+            new: true, runValidators: true,
+        context: 'query'
+    })
         .then(updatedPerson => {
             response.json(updatedPerson)
         })
@@ -90,6 +95,9 @@ const errorHandler = (error, request, response, next) => {
 
     if (error.name === 'CastError') {
         return response.status(400).send({ error: 'malformatted id' })
+    }
+    else if (error.name === 'ValidationError') {
+        return response.status(400).send({ error: error.message })
     }
 
     next(error)
