@@ -14,8 +14,8 @@ const App = () => {
 
   useEffect(() => {
     personsService
-    .getAll()
-    .then(response => setPeople(response))
+      .getAll()
+      .then(response => setPeople(response))
   }, [])
 
   const updateName = (event) => {
@@ -54,7 +54,7 @@ const App = () => {
           })
       }
     }
-    // Add new person to contacts
+    // Add new person to contacts=
     else {
       personsService
         .create(newPerson)
