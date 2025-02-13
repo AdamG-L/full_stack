@@ -40,7 +40,6 @@ const App = () => {
   }
 
   const toggleImportanceOf = (id) => {
-    const url = `http://localhost:3001/notes/${id}`
     const note = notes.find(n => n.id === id)
     const changedNote = { ...note, important: !note.important }
     noteService
@@ -50,7 +49,7 @@ const App = () => {
         // map old values EXCEPT the given id which is replaced by response
         setNotes(notes.map(n => n.id === id ? returnedNote : n))
       })
-      .catch(error => {
+      .catch(() => {
         setErrMsg( `Note '${note.content}' was already removed from server`)
         setTimeout(() => {
           setErrMsg(null)
