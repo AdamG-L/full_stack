@@ -13,4 +13,24 @@ const favoriteBlog = (blogs) => {
         , null)
 }
 
-module.exports = { dummy, totalLikes, favoriteBlog}
+const mostBlogs = (blogs) => {
+    // Returns author with most blogs and # of blogs
+    const authors = new Map()
+    blogs.forEach(b => {
+        authors.set(b.author, (authors.get(b.author) || 0) + 1)
+    })
+    let maxVal = 0
+    let author = null
+    authors.forEach((val, key) => {
+        if (val > maxVal) { 
+            maxVal = val
+            author = key
+         }
+    })
+    return {
+        author: author,
+        blogs: maxVal
+    }
+}
+
+module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs }
