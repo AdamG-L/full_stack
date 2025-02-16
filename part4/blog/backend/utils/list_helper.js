@@ -22,15 +22,34 @@ const mostBlogs = (blogs) => {
     let maxVal = 0
     let author = null
     authors.forEach((val, key) => {
-        if (val > maxVal) { 
+        if (val > maxVal) {
             maxVal = val
             author = key
-         }
+        }
     })
     return {
         author: author,
         blogs: maxVal
     }
 }
+// Return author with most accumulated likes and the given likes
+const mostLikes = (blogs) => {
+    const authors = new Map()
+    blogs.forEach(b => {
+        authors.set(b.author, (authors.get(b.author) || 0) + b.likes)
+    })
+    let author = null
+    let likes = 0
+    authors.forEach((val, key)=> {
+        if(val > likes){
+            author = key
+            likes = val
+        }
+    })
+    return {
+        author,
+        likes
+    }
+}
 
-module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs }
+module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes }
