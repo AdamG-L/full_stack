@@ -31,7 +31,7 @@ notesRouter.post('/', async (request, response, next) => {
       important: body.important || false,
     })
     const savedNote = await note.save()
-    response.json(savedNote)
+    response.status(201).json(savedNote)
   } catch (error) {
     next(error)
   }
@@ -54,7 +54,7 @@ notesRouter.put('/:id', async (request, response, next) => {
       important: body.important,
     }
     const updatedNote = await Note.findByIdAndUpdate(request.params.id, note, { new: true })
-    response.json(updatedNote)
+    response.status(200).json(updatedNote)
   } catch (error) {
     next(error)
   }
