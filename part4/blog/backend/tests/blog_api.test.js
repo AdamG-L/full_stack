@@ -21,4 +21,11 @@ describe('Backend API Tests:', () => {
         const response = await api.get('/api/blogs')
         assert.strictEqual(response.body.length, initialBlogs.length)
     })
+
+    test('backend return modifies _id to id', async () => {
+        const response = await api.get('/api/blogs')
+        const blog = response.body[0]
+        assert.strictEqual('id' in blog, true)
+        assert.strictEqual('_id' in blog, false)
+    })
 })
