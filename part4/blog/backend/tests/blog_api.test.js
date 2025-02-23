@@ -74,4 +74,27 @@ describe('Backend API Tests:', () => {
         .expect('Content-Type', /application\/json/)
     }
     )
+
+    test('Blog is deleted successfully', async () => {
+        const blogs = await getBlogs()
+        const blogToDelete = blogs[0]
+        await api.delete(`/api/blogs/${blogToDelete.id}`)
+        .expect(204)
+        const newBlogs = await getBlogs()
+        const blogIds = newBlogs.map(b => b.id)
+        assert(!blogIds.includes(blogToDelete.id))
+        assert.strictEqual(blogs.length-1, newBlogs.length)
+    })
+
+    test('Blog post is updated successfully', async() => {
+        const blogs = await getBlogs()
+        const blogToUpdate = blogs[0]
+        blogToUpdate.title = 'Updated title'
+        await api.put(`/api/blogs/${blogToUpdate.id}`)
+        .send(blogToUpdate)
+        .expect(200)
+        const updatedBlogs = await getBlogs()
+        const blogTitles = updatedBlogs.map(b => b.title)
+        assert(blogTitles.includes('Updated title'))
+    })
 })
