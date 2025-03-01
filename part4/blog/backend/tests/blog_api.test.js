@@ -7,7 +7,7 @@ const Blog = require('../models/blog')
 const app = require('../app')
 const api = supertest(app)
 
-describe('Backend API Tests:', () => {
+describe('Blog API Tests:', () => {
 
     beforeEach(async () => {
         await Blog.deleteMany({})
