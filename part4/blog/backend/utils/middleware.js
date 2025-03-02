@@ -32,7 +32,7 @@ const errorHandler = (error, request, response, next) => {
 
   next(error)
 }
-
+// Grabs token, verifies, sets info under 'request.user'
 const jwtMiddleware = expressjwt({
   secret: process.env.SECRET,  // Your JWT secret key
   algorithms: ['HS256'],  // Ensure the correct signing algorithm
