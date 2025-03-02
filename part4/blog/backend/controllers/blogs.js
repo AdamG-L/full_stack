@@ -23,8 +23,22 @@ blogsRouter.post('/', jwtMiddleware, async(request, response) => {
     response.status(201).json(savedBlog)
 })
 
-blogsRouter.delete('/:id', async (request, response) => {
-    await Blog.findByIdAndDelete(request.params.id)
+blogsRouter.delete('/:id', jwtMiddleware, async (request, response) => {
+    const blogId = request.params.id
+    const userId = request.user.id
+    const blog = await Blog.findById(blogId)
+    const user = await User.findById(userId)
+    if(!blog || !user){
+        return response.status(204).end()
+    }
+    if(blog.user.toString() !== userId){
+        return response.status(403).json({
+            error: 'You can only delete blogs you own'
+          })
+    }
+    user.blogs = user.blogs.filter(b => b.toString() !== blogId)
+    await user.save()
+    await blog.deleteOne()
     response.status(204).end()
 })
 
