@@ -32,3 +32,18 @@ An Express-based backend for the Phonebook app that serves and manages contacts.
   - Hosted on Render for live deployment: [Live App](https://full-stack-5jvd.onrender.com)
   - Implements CRUD operations for managing contacts.
   - Middleware for error handling and logging.
+
+## Projects in `part4` folder
+
+### Blog List Application
+A Node.js backend application for managing blog posts with user authentication and testing.
+- **Technologies Used**: Node.js, node:test, Express, MongoDB, Mongoose, Supertest, JWT
+- **Features**:
+  - RESTful API for managing blog posts and users
+  - User authentication using JSON Web Tokens
+  - Password hashing with bcrypt
+  - MongoDB integration using Mongoose
+  - Comprehensive testing suite using node:test and Supertest
+  - Middleware for error handling, authentication, and logging
+  - Token-based user authorization for blog operations
+  - Integration tests for API endpoints and user operations
