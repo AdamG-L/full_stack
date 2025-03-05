@@ -1,8 +1,11 @@
 import Note from './components/Note'
 import Notification from './components/Notification'
 import Footer from './components/Footer'
+import LoginForm from './components/LoginForm'
+import NoteForm from './components/NoteForm'
 import { useState, useEffect } from 'react'
 import noteService from './services/notes'
+import loginService from './services/login'
 
 /* By setting value in the input field to the newNote state,
   react has full control of the input. 
@@ -12,9 +15,10 @@ const App = () => {
   // Controlled Component for form
   const [newNote, setNewNote] = useState('a new note...')
   const [showAll, setShowAll] = useState(true)
-  const [errorMsg, setErrMsg] = useState("Error Dumby")
+  const [errorMsg, setErrMsg] = useState("")
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
     noteService
@@ -61,9 +65,23 @@ const App = () => {
       })
   }
 
-  // Don't attempt to render until server has filled notes
-  if (!notes) {
-    return null
+  const handleLogin = async (event) => {
+    event.preventDefault()
+    try {
+      const loggedUser = await loginService.login({
+        username,
+        password
+      })
+      setUser(loggedUser)
+      setUsername('')
+      setPassword('')
+
+    } catch {
+      setErrMsg('Wrong credentials')
+      setTimeout(() => {
+        setErrMsg(null)
+      }, 5000)
+    }
   }
 
   // If NOT showAll, filter notes to only show important
@@ -73,6 +91,16 @@ const App = () => {
     <div>
       <h1>Notes</h1>
       <Notification errorMsg={errorMsg} />
+      
+      {
+        user === null ? 
+        <LoginForm username={username} password={password}
+        setUsername={setUsername} setPassword={setPassword} handleLogin={handleLogin}/> 
+        : 
+        <NoteForm newNote={newNote} addNote={addNote}
+        handleNoteChange={handleNoteChange}/>
+      }
+
       <div>
         <button onClick={() => setShowAll(showAll => !showAll)}>
           show {showAll ? 'important' : "all"}
@@ -85,10 +113,7 @@ const App = () => {
             toggleImportance={() => toggleImportanceOf(note.id)} />
         )}
       </ul>
-      <form onSubmit={addNote}>
-        <input value={newNote} onChange={handleNoteChange} />
-        <button type="submit">save</button>
-      </form>
+
       <Footer />
     </div>
   )
