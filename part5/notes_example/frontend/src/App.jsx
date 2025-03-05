@@ -27,6 +27,15 @@ const App = () => {
         setNotes(initialNotes)
       })
   }, [])
+  // Check for existing token
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      noteService.setToken(user.token)
+    }
+  }, [])
 
   const addNote = (event) => {
     event.preventDefault()
@@ -72,6 +81,10 @@ const App = () => {
         username,
         password
       })
+      window.localStorage.setItem(
+        'loggedNoteappUser', JSON.stringify(loggedUser)
+      )
+      noteService.setToken(loggedUser.token)
       setUser(loggedUser)
       setUsername('')
       setPassword('')
@@ -91,14 +104,14 @@ const App = () => {
     <div>
       <h1>Notes</h1>
       <Notification errorMsg={errorMsg} />
-      
+
       {
-        user === null ? 
-        <LoginForm username={username} password={password}
-        setUsername={setUsername} setPassword={setPassword} handleLogin={handleLogin}/> 
-        : 
-        <NoteForm newNote={newNote} addNote={addNote}
-        handleNoteChange={handleNoteChange}/>
+        user === null ?
+          <LoginForm username={username} password={password}
+            setUsername={setUsername} setPassword={setPassword} handleLogin={handleLogin} />
+          :
+          <NoteForm newNote={newNote} addNote={addNote}
+            handleNoteChange={handleNoteChange} />
       }
 
       <div>
