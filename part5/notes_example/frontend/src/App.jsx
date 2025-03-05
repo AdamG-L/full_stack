@@ -1,5 +1,6 @@
 import Note from './components/Note'
 import Notification from './components/Notification'
+import Footer from './components/Footer'
 import { useState, useEffect } from 'react'
 import noteService from './services/notes'
 
@@ -12,6 +13,8 @@ const App = () => {
   const [newNote, setNewNote] = useState('a new note...')
   const [showAll, setShowAll] = useState(true)
   const [errorMsg, setErrMsg] = useState("Error Dumby")
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
   useEffect(() => {
     noteService
@@ -50,7 +53,7 @@ const App = () => {
         setNotes(notes.map(n => n.id === id ? returnedNote : n))
       })
       .catch(() => {
-        setErrMsg( `Note '${note.content}' was already removed from server`)
+        setErrMsg(`Note '${note.content}' was already removed from server`)
         setTimeout(() => {
           setErrMsg(null)
         }, 5000)
@@ -58,22 +61,8 @@ const App = () => {
       })
   }
 
-  const Footer = () => {
-    const footerStyle = {
-      color: 'green',
-      fontStyle: 'italic',
-      fontSize: 16
-    }
-    return (
-      <div style={footerStyle}>
-        <br />
-        <em>Note app, Department of Computer Science, University of Helsinki 2024</em>
-      </div>
-    )
-  }
-
   // Don't attempt to render until server has filled notes
-  if(!notes){
+  if (!notes) {
     return null
   }
 
@@ -100,7 +89,7 @@ const App = () => {
         <input value={newNote} onChange={handleNoteChange} />
         <button type="submit">save</button>
       </form>
-      <Footer/>
+      <Footer />
     </div>
   )
 }
