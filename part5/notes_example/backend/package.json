@@ -1,0 +1,32 @@
+{
+  "name": "notes_example",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "Adam G-L",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "test": "cross-env  NODE_ENV=test node --test",
+    "build:ui": "cd ../frontend/ && npm run build && cp -r dist ../backend",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.6",
+    "jsonwebtoken": "^9.0.2",
+    "express-jwt": "^8.5.1",
+    "nodemon": "^3.1.9",
+    "cross-env": "^7.0.3",
+    "express-async-errors": "^3.1.1"
+  },
+  "devDependencies": {
+    "supertest": "^7.0.0",
+    "globals": "^15.14.0"
+  }
+}
