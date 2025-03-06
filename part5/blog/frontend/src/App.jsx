@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
+import BlogDisplay from './components/BlogDisplay'
 import loginService from './services/login'
 import blogService from './services/blog'
 
@@ -11,14 +12,20 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [blogs, setBlogs] = useState([])
 
   // Check for existing token
   useEffect(() => {
+    const loadBlogs = async () => {
+      const allBlogs = await blogService.getAll()
+      setBlogs(allBlogs)
+    }
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     if (loggedUserJSON) {
       const loggedUser = JSON.parse(loggedUserJSON)
       setUser(loggedUser)
       blogService.setToken(loggedUser.token)
+      loadBlogs()
     }
   }, [])
 
@@ -34,6 +41,8 @@ const App = () => {
       setUser(loggedUser)
       setUsername('')
       setPassword('')
+      const allBlogs = await blogService.getAll()
+      setBlogs(allBlogs)
     } catch {
       setErrMsg('Wrong credentials')
       setTimeout(() => {
@@ -41,7 +50,6 @@ const App = () => {
       }, 5000)
     }
   }
-
 
   return (
     <>
@@ -53,7 +61,11 @@ const App = () => {
             setUsername={setUsername} setPassword={setPassword}
             handleLogin={handleLogin} />
           :
-          <h3>Login Successful</h3>
+          <>
+            <h3>Current User: {user.username}</h3>
+            <BlogDisplay blogs={blogs} />
+          </>
+
       }
     </>
   )
