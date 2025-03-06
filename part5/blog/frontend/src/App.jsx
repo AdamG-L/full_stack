@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import BlogDisplay from './components/BlogDisplay'
+import UserDisplay from './components/UserDisplay'
 import loginService from './services/login'
 import blogService from './services/blog'
 
@@ -62,7 +63,7 @@ const App = () => {
             handleLogin={handleLogin} />
           :
           <>
-            <h3>Current User: {user.username}</h3>
+            <UserDisplay username={user.username} setUser={setUser}/>
             <BlogDisplay blogs={blogs} />
           </>
 
