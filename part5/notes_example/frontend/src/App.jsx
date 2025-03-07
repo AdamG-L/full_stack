@@ -3,6 +3,7 @@ import Notification from './components/Notification'
 import Footer from './components/Footer'
 import LoginForm from './components/LoginForm'
 import NoteForm from './components/NoteForm'
+import Togglable from './components/Togglable'
 import { useState, useEffect } from 'react'
 import noteService from './services/notes'
 import loginService from './services/login'
@@ -97,6 +98,8 @@ const App = () => {
     }
   }
 
+
+
   // If NOT showAll, filter notes to only show important
   const notesToShow = showAll ? notes : notes.filter(note => note.important)
 
@@ -107,11 +110,15 @@ const App = () => {
 
       {
         user === null ?
-          <LoginForm username={username} password={password}
-            setUsername={setUsername} setPassword={setPassword} handleLogin={handleLogin} />
+          <Togglable buttonLabel="Login">
+            <LoginForm username={username} password={password}
+              setUsername={setUsername} setPassword={setPassword} handleLogin={handleLogin} />
+          </Togglable>
           :
-          <NoteForm newNote={newNote} addNote={addNote}
-            handleNoteChange={handleNoteChange} />
+          <Togglable buttonLabel="New Note">
+            <NoteForm newNote={newNote} addNote={addNote}
+              handleNoteChange={handleNoteChange} />
+          </Togglable>
       }
 
       <div>
