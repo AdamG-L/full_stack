@@ -3,17 +3,20 @@ import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import BlogDisplay from './components/BlogDisplay'
 import UserDisplay from './components/UserDisplay'
+import BlogForm from './components/BlogForm'
 import loginService from './services/login'
 import blogService from './services/blog'
 
 
 const App = () => {
-
-  const [errorMsg, setErrMsg] = useState("")
+  const [msg, setMsg] = useState("")
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
+  const [title, setTitle]= useState('')
+  const [author, setAuthor]= useState('')
+  const [url, setUrl]= useState('')
 
   // Check for existing token
   useEffect(() => {
@@ -44,17 +47,42 @@ const App = () => {
       setPassword('')
       const allBlogs = await blogService.getAll()
       setBlogs(allBlogs)
-    } catch {
-      setErrMsg('Wrong credentials')
-      setTimeout(() => {
-        setErrMsg(null)
-      }, 5000)
+    } catch (error) {
+      showTimedMsg(error.response.data.error)
     }
+  }
+
+  const submitBlog = async (event) => {
+    event.preventDefault()
+    const blog = {
+      title, 
+      author, 
+      url
+    }
+    try {
+      await blogService.create(blog)
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+      const allBlogs = await blogService.getAll()
+      setBlogs(allBlogs)
+      showTimedMsg(`${blog.title} successfully added to database!`)
+    } catch (error) {
+      showTimedMsg(error.response.data.error)
+    }
+  }
+
+  /*****          Helper Functions         ****/
+  const showTimedMsg = (message) => {
+    setMsg(message)
+    setTimeout(() => {
+      setMsg(null)
+    }, 5000)
   }
 
   return (
     <>
-      <Notification errorMsg={errorMsg} />
+      <Notification errorMsg={msg} />
       <h1>Blog App</h1>
       {
         user === null ?
@@ -64,6 +92,9 @@ const App = () => {
           :
           <>
             <UserDisplay username={user.username} setUser={setUser}/>
+            <BlogForm title={title} author={author} 
+            url={url} setTitle={setTitle} setAuthor={setAuthor}
+            setUrl={setUrl} submitBlog={submitBlog}/>
             <BlogDisplay blogs={blogs} />
           </>
 
