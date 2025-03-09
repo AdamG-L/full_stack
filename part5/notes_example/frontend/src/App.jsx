@@ -4,7 +4,7 @@ import Footer from './components/Footer'
 import LoginForm from './components/LoginForm'
 import NoteForm from './components/NoteForm'
 import Togglable from './components/Togglable'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import noteService from './services/notes'
 import loginService from './services/login'
 
@@ -19,6 +19,7 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const noteFormRef = useRef()
 
   useEffect(() => {
     noteService
@@ -40,6 +41,7 @@ const App = () => {
   const addNote = async (note) => {
     const savedNote = await noteService.create(note)
     setNotes(notes => notes.concat(savedNote))
+    noteFormRef.current.toggleVisibility()
   }
 
   const toggleImportanceOf = (id) => {
@@ -101,7 +103,7 @@ const App = () => {
               setUsername={setUsername} setPassword={setPassword} handleLogin={handleLogin} />
           </Togglable>
           :
-          <Togglable buttonLabel="New Note">
+          <Togglable buttonLabel="New Note" ref={noteFormRef}>
             <NoteForm addNote={addNote} />
           </Togglable>
       }
