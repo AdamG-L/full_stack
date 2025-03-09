@@ -14,7 +14,6 @@ import loginService from './services/login'
 const App = () => {
   const [notes, setNotes] = useState([])
   // Controlled Component for form
-  const [newNote, setNewNote] = useState('a new note...')
   const [showAll, setShowAll] = useState(true)
   const [errorMsg, setErrMsg] = useState("")
   const [username, setUsername] = useState('')
@@ -38,22 +37,9 @@ const App = () => {
     }
   }, [])
 
-  const addNote = (event) => {
-    event.preventDefault()
-    const noteObject = {
-      content: newNote,
-      important: Math.random() < 0.5,
-    }
-    noteService
-      .create(noteObject)
-      .then(returnedNote => {
-        setNotes(notes => notes.concat(returnedNote))
-        setNewNote('')
-      })
-  }
-
-  const handleNoteChange = (event) => {
-    setNewNote(event.target.value)
+  const addNote = async (note) => {
+    const savedNote = await noteService.create(note)
+    setNotes(notes => notes.concat(savedNote))
   }
 
   const toggleImportanceOf = (id) => {
@@ -116,8 +102,7 @@ const App = () => {
           </Togglable>
           :
           <Togglable buttonLabel="New Note">
-            <NoteForm newNote={newNote} addNote={addNote}
-              handleNoteChange={handleNoteChange} />
+            <NoteForm addNote={addNote} />
           </Togglable>
       }
 
