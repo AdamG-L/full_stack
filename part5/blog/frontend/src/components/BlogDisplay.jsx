@@ -1,13 +1,14 @@
-const BlogDisplay = ({ blogs }) => (
-    <div>
-        {blogs.map(b => (
-            <div key={b.id}>
-                <h4>{b.title}</h4>
-                <p>Url: {b.url} <br/>
-                Likes: {b.likes}</p>
-            </div>
-        ))}
-    </div>
-)
+import Blog from './Blog'
 
+const BlogDisplay = ({ blogs }) => {
+
+
+    return (
+        <div>
+            {blogs.map(b => (
+                <Blog key={b.id} blog={b}></Blog>
+            ))}
+        </div>
+    )
+}
 export default BlogDisplay
