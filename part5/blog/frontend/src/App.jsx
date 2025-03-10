@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import BlogDisplay from './components/BlogDisplay'
 import UserDisplay from './components/UserDisplay'
 import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable'
 import loginService from './services/login'
 import blogService from './services/blog'
 
@@ -14,9 +15,10 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
-  const [title, setTitle]= useState('')
-  const [author, setAuthor]= useState('')
-  const [url, setUrl]= useState('')
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+  const blogFormRef = useRef()
 
   // Check for existing token
   useEffect(() => {
@@ -55,8 +57,8 @@ const App = () => {
   const submitBlog = async (event) => {
     event.preventDefault()
     const blog = {
-      title, 
-      author, 
+      title,
+      author,
       url
     }
     try {
@@ -67,6 +69,7 @@ const App = () => {
       const allBlogs = await blogService.getAll()
       setBlogs(allBlogs)
       showTimedMsg(`${blog.title} successfully added to database!`)
+      blogFormRef.current.toggleVisibility()
     } catch (error) {
       showTimedMsg(error.response.data.error)
     }
@@ -91,10 +94,12 @@ const App = () => {
             handleLogin={handleLogin} />
           :
           <>
-            <UserDisplay username={user.username} setUser={setUser}/>
-            <BlogForm title={title} author={author} 
-            url={url} setTitle={setTitle} setAuthor={setAuthor}
-            setUrl={setUrl} submitBlog={submitBlog}/>
+            <UserDisplay username={user.username} setUser={setUser} />
+            <Togglable buttonLabel="Add Post" ref={blogFormRef}>
+              <BlogForm title={title} author={author}
+                url={url} setTitle={setTitle} setAuthor={setAuthor}
+                setUrl={setUrl} submitBlog={submitBlog} />
+            </Togglable>
             <BlogDisplay blogs={blogs} />
           </>
 
