@@ -15,9 +15,6 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
   const blogFormRef = useRef()
 
   // Check for existing token
@@ -54,18 +51,9 @@ const App = () => {
     }
   }
 
-  const submitBlog = async (event) => {
-    event.preventDefault()
-    const blog = {
-      title,
-      author,
-      url
-    }
+  const submitBlog = async (blog) => {
     try {
       await blogService.create(blog)
-      setTitle('')
-      setAuthor('')
-      setUrl('')
       const allBlogs = await blogService.getAll()
       setBlogs(allBlogs)
       showTimedMsg(`${blog.title} successfully added to database!`)
@@ -96,9 +84,7 @@ const App = () => {
           <>
             <UserDisplay username={user.username} setUser={setUser} />
             <Togglable buttonLabel="Add Post" ref={blogFormRef}>
-              <BlogForm title={title} author={author}
-                url={url} setTitle={setTitle} setAuthor={setAuthor}
-                setUrl={setUrl} submitBlog={submitBlog} />
+              <BlogForm submitBlog={submitBlog} />
             </Togglable>
             <BlogDisplay blogs={blogs} />
           </>
