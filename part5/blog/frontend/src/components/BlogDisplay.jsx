@@ -1,8 +1,6 @@
 import Blog from './Blog'
 
 const BlogDisplay = ({ blogs }) => {
-
-
     return (
         <div>
             {blogs.map(b => (

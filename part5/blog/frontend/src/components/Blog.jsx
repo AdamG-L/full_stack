@@ -3,31 +3,26 @@ import { useState } from 'react'
 const Blog = ({ blog }) => {
     const [display, setDisplay] = useState(false)
     const buttonLabel = display ? 'hide' : 'view'
+
     return (
-        <div>
-            {display ?
-                (
-                    <div>
-                        Title: {blog.title}
-                        <br />
-                        Author: {blog.author}
-                        <br />
-                        Url: {blog.url}
-                        <br />
-                        Likes: {blog.likes}
-                    </div>
-                )
-                :
-                (
-                    <div>
-                        Title: {blog.title}
-                    </div>
-                )
-            }
-            <button onClick={() => setDisplay(!display)}>
+        <div className="p-4 border rounded shadow mb-4">
+            {display ? (
+                <div>
+                    <p><strong>Title:</strong> {blog.title}</p>
+                    <p><strong>Author:</strong> {blog.author}</p>
+                    <p><strong>Url:</strong> <a href={blog.url} className="text-blue-500">{blog.url}</a></p>
+                    <p><strong>Likes:</strong> {blog.likes}</p>
+                </div>
+            ) : (
+                <p><strong>Title:</strong> {blog.title}</p>
+            )}
+            <button 
+                onClick={() => setDisplay(!display)} 
+                className="button button-blue"
+            >
                 {buttonLabel}
             </button>
-        </div >
+        </div>
     )
 }
 

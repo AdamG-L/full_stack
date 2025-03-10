@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+.button {
+  @apply my-2 bg-gray-500 text-white text-sm py-1 px-3 rounded;
+}
+
+.button-blue {
+  @apply bg-blue-500;
+}

@@ -4,10 +4,10 @@ const logoutUser = (setUser) => {
 }
 
 const UserDisplay = ({username, setUser}) => (
-    <>
+    <div className="flex flex-row items-center gap-2">
     <h3>Current User: {username}</h3>
-    <button onClick={() => logoutUser(setUser)}>Logout</button>
-    </>
+    <button className="button" onClick={() => logoutUser(setUser)}>Logout</button>
+    </div>
 )
 
 export default UserDisplay

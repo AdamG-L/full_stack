@@ -72,25 +72,29 @@ const App = () => {
   }
 
   return (
-    <>
+    <div className="flex flex-col items-center w-1/2 mx-auto">
       <Notification errorMsg={msg} />
-      <h1>Blog App</h1>
+      <h1 className='text-3xl m-3 w-1/3'>
+        <strong>Blog App</strong>
+      </h1>
       {
         user === null ?
-          <LoginForm username={username} password={password}
-            setUsername={setUsername} setPassword={setPassword}
-            handleLogin={handleLogin} />
+          <div>
+            <LoginForm username={username} password={password}
+              setUsername={setUsername} setPassword={setPassword}
+              handleLogin={handleLogin} />
+          </div>
           :
-          <>
+          <div className="flex flex-col w-1/3">
             <UserDisplay username={user.username} setUser={setUser} />
             <Togglable buttonLabel="Add Post" ref={blogFormRef}>
               <BlogForm submitBlog={submitBlog} />
             </Togglable>
             <BlogDisplay blogs={blogs} />
-          </>
+          </div>
 
       }
-    </>
+    </div>
   )
 }
 
