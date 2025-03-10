@@ -74,12 +74,12 @@ const App = () => {
   return (
     <div className="flex flex-col items-center w-1/2 mx-auto">
       <Notification errorMsg={msg} />
-      <h1 className='text-3xl m-3 w-1/3'>
+      <h1 className='text-3xl m-7 w-1/3'>
         <strong>Blog App</strong>
       </h1>
       {
         user === null ?
-          <div>
+          <div className="flex flex-col w-1/3">
             <LoginForm username={username} password={password}
               setUsername={setUsername} setPassword={setPassword}
               handleLogin={handleLogin} />
@@ -87,9 +87,11 @@ const App = () => {
           :
           <div className="flex flex-col w-1/3">
             <UserDisplay username={user.username} setUser={setUser} />
-            <Togglable buttonLabel="Add Post" ref={blogFormRef}>
-              <BlogForm submitBlog={submitBlog} />
-            </Togglable>
+            <div className='my-4'>
+              <Togglable buttonLabel="Add Post" ref={blogFormRef}>
+                <BlogForm submitBlog={submitBlog} />
+              </Togglable>
+            </div>
             <BlogDisplay blogs={blogs} />
           </div>
 
