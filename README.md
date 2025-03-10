@@ -1,6 +1,9 @@
 # FullStack Projects
 This repo contains the fullstack projects developed as part of the FullStackOpen course.
 
+## Live Deployment from Part 5
+  - Live deployment: [Blog App](https://blog-app-ipr7.onrender.com/)
+
 ## Projects in `part2` folder
 
 ### 1. Country Display App
@@ -47,3 +50,18 @@ A Node.js backend application for managing blog posts with user authentication a
   - Middleware for error handling, authentication, and logging
   - Token-based user authorization for blog operations
   - Integration tests for API endpoints and user operations
+
+## Projects in `part5` folder
+
+### Blog List Application
+A full-stack blog management application with user authentication, testing, and a modern UI built with React and Tailwind CSS.
+- **Technologies Used**: React, Node.js, MongoDB, Express, JWT, Tailwind CSS
+- **Features**:
+  - User authentication with JSON Web Tokens
+  - Create, read, update, and delete blog posts
+  - Like system for blog posts
+  - Modern responsive UI with Tailwind CSS
+  - Protected routes and API endpoints
+  - Token-based authorization
+  - Form validation and error handling
+  - Live deployment: [Blog App](https://blog-app-ipr7.onrender.com/)
