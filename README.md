@@ -3,6 +3,10 @@ This repo contains the fullstack projects developed as part of the FullStackOpen
 
 ## Live Deployment from Part 5
   - Live deployment: [Blog App](https://blog-app-ipr7.onrender.com/)
+  - Test login details: 
+  - Username: guest 
+  - Password: 123
+  
   - Note: May take a few seconds for first-time instance to load 
 
 ## Projects in `part2` folder
