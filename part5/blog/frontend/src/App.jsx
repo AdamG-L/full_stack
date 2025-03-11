@@ -51,6 +51,16 @@ const App = () => {
     }
   }
 
+  const handleLike = async (blog) => {
+    try {
+      await blogService.update(blog.id, {likes: blog.likes+1})
+      const allBlogs = await blogService.getAll()
+      setBlogs(allBlogs)
+    } catch (error) {
+      showTimedMsg(error.response.data.error)
+    }    
+  }
+
   const submitBlog = async (blog) => {
     try {
       await blogService.create(blog)
@@ -92,7 +102,7 @@ const App = () => {
                 <BlogForm submitBlog={submitBlog} />
               </Togglable>
             </div>
-            <BlogDisplay blogs={blogs} />
+            <BlogDisplay blogs={blogs} handleLike={handleLike} />
           </div>
 
       }

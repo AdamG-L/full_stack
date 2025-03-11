@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, handleLike }) => {
     const [display, setDisplay] = useState(false)
     const buttonLabel = display ? 'hide' : 'view'
 
@@ -11,13 +11,16 @@ const Blog = ({ blog }) => {
                     <p><strong>Title:</strong> {blog.title}</p>
                     <p><strong>Author:</strong> {blog.author}</p>
                     <p><strong>Url:</strong> <a href={blog.url} className="text-blue-500">{blog.url}</a></p>
-                    <p><strong>Likes:</strong> {blog.likes}</p>
+                    <div className='flex items-center gap-4'>
+                        <p><strong>Likes:</strong> {blog.likes}</p>
+                         <button className='button' onClick={() => handleLike(blog)}>Like</button>
+                    </div>
                 </div>
             ) : (
                 <p><strong>Title:</strong> {blog.title}</p>
             )}
-            <button 
-                onClick={() => setDisplay(!display)} 
+            <button
+                onClick={() => setDisplay(!display)}
                 className="button button-blue"
             >
                 {buttonLabel}
