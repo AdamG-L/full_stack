@@ -72,7 +72,7 @@ const App = () => {
   }
 
   return (
-    <div className="flex flex-col items-center w-1/2 mx-auto">
+    <div className="flex flex-col items-center w-1/2 mx-auto min-w-[800px]">
       <Notification errorMsg={msg} />
       <h1 className='text-3xl m-7 w-1/3'>
         <strong>Blog App</strong>
