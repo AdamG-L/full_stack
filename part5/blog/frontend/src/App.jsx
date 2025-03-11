@@ -11,8 +11,8 @@ import blogService from './services/blog'
 
 const App = () => {
   const [msg, setMsg] = useState("")
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('guest')
+  const [password, setPassword] = useState('123')
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
   const blogFormRef = useRef()
