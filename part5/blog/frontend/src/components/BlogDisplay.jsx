@@ -1,6 +1,7 @@
 import Blog from './Blog'
 
 const BlogDisplay = ({ blogs, handleLike }) => {
+    blogs.sort((a,b) => b.likes - a.likes)
     return (
         <div>
             {blogs.map(b => (
