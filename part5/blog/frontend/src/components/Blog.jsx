@@ -3,6 +3,14 @@ import { useState } from 'react'
 const Blog = ({ blog, handleLike, userId, deleteBlog }) => {
     const [display, setDisplay] = useState(false)
     const buttonLabel = display ? 'hide' : 'view'
+
+    const confirmDelete = () => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this blog?")
+        if (confirmDelete) {
+            deleteBlog(blog)
+        }
+    }
+
     return (
         <div className="p-4 border rounded shadow mb-4">
             {display ? (
@@ -26,8 +34,8 @@ const Blog = ({ blog, handleLike, userId, deleteBlog }) => {
                     {buttonLabel}
                 </button>
                 {userId === blog.user.id ? (
-                    <button className='button' onClick={() => deleteBlog(blog)}>Delete</button>
-                ) : null }
+                    <button className='button' onClick={confirmDelete}>Delete</button>
+                ) : null}
 
             </div>
         </div>
