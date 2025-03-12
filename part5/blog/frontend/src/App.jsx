@@ -61,6 +61,17 @@ const App = () => {
     }    
   }
 
+  const deleteBlog = async (blog) => {
+    try {
+      await blogService.deleteBlog(blog.id)
+      const allBlogs = await blogService.getAll()
+      setBlogs(allBlogs)
+      showTimedMsg(`${blog.title} successfully deleted from database!`)
+    } catch (error) {
+      showTimedMsg(error.response.data.error)
+    }
+  }
+
   const submitBlog = async (blog) => {
     try {
       await blogService.create(blog)
@@ -80,7 +91,6 @@ const App = () => {
       setMsg(null)
     }, 5000)
   }
-
   return (
     <div className="flex flex-col items-center w-1/2 mx-auto min-w-[800px]">
       <Notification errorMsg={msg} />
@@ -102,7 +112,7 @@ const App = () => {
                 <BlogForm submitBlog={submitBlog} />
               </Togglable>
             </div>
-            <BlogDisplay blogs={blogs} handleLike={handleLike} />
+            <BlogDisplay blogs={blogs} handleLike={handleLike} userId={user.id} deleteBlog={deleteBlog}/>
           </div>
 
       }
