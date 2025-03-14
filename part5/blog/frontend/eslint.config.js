@@ -36,5 +36,9 @@ export default [
       'react/prop-types': 'off',
       "no-unused-vars": "warn",
     },
+    extends: ["plugin:vitest-globals/recommended"],
+    env: {
+      "vitest-globals/env": true
+    }
   },
 ]
