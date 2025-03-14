@@ -27,6 +27,13 @@ describe('<Togglable />', () => {
     }
 
     render(<Note note={note} />)
-    screen.getByText('Component testing is done with react-testing-library')
+    // Turns into a contains function
+    screen.getByText('Component testing is done with react-testing-library'
+      , { exact: false }
+    )
+    // Other option
+    //const element = await screen.findByText('Does not work anymore :(')
+    // Doesnt cause exception if not found
+    //const element = screen.queryByText('do not want this thing to be rendered')
   })
 })
