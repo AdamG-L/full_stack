@@ -98,12 +98,12 @@ const App = () => {
 
       {
         user === null ?
-          <Togglable buttonLabel="Login">
+          <Togglable buttonLabel="Login" key={'LoginForm'}>
             <LoginForm username={username} password={password}
               setUsername={setUsername} setPassword={setPassword} handleLogin={handleLogin} />
           </Togglable>
           :
-          <Togglable buttonLabel="New Note" ref={noteFormRef}>
+          <Togglable buttonLabel="New Note" ref={noteFormRef} key={'NoteForm'}>
             <NoteForm addNote={addNote} />
           </Togglable>
       }

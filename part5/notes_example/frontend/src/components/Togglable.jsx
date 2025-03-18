@@ -2,12 +2,21 @@ import { useState, forwardRef, useImperativeHandle } from 'react'
 
 const Togglable = forwardRef(({ buttonLabel, children }, refs) => {
   const [visible, setVisible] = useState(false)
+  const hide = {display: 'none'}
+  const show = {display: 'block'}
 
-  const hideWhenVisible = { display: visible ? 'none' : '' }
-  const showWhenVisible = { display: visible ? '' : 'none' }
+  if(visible){
+    console.log("Visible equals true ", buttonLabel)
+  }
+  else if(visible === null){
+    console.log("Visible equals null ", buttonLabel)
+  }
+  else{
+    console.log("Visible equals false ", buttonLabel)
+  }
 
   const toggleVisibility = () => {
-    setVisible(!visible)
+    setVisible(prev => !prev)
   }
 
   useImperativeHandle(refs, () => {
@@ -16,10 +25,10 @@ const Togglable = forwardRef(({ buttonLabel, children }, refs) => {
 
   return (
     <div>
-      <div style={hideWhenVisible}>
+      <div style={visible ? hide : show}>
         <button onClick={toggleVisibility}>{buttonLabel}</button>
       </div>
-      <div style={showWhenVisible} className="togglableContent">
+      <div style={visible ? show: hide} className="togglableContent">
         {children}
         <button onClick={toggleVisibility}>cancel</button>
       </div>
