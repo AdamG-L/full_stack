@@ -57,7 +57,7 @@ A Node.js backend application for managing blog posts with user authentication a
 
 ### Blog List Application
 A full-stack blog management application with user authentication, testing, and a modern UI built with React and Tailwind CSS.
-- **Technologies Used**: React, Node.js, MongoDB, Express, JWT, Tailwind CSS
+- **Technologies Used**: Playwright, React, Node.js, MongoDB, Express, JWT, Tailwind CSS
 - **Features**:
   - User authentication with JSON Web Tokens
   - Create, read, update, and delete blog posts
@@ -66,4 +66,5 @@ A full-stack blog management application with user authentication, testing, and 
   - Protected routes and API endpoints
   - Token-based authorization
   - Form validation and error handling
+  - End-to-end testing with Playwright
   - Live deployment: [Blog App](https://blog-app-ipr7.onrender.com/)
