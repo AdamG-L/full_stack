@@ -3,20 +3,18 @@ import { createNote, toggleImportanceOf } from './reducers/noteReducer'
 import { useSelector, useDispatch } from 'react-redux'
 import NoteForm from './components/NoteForm'
 import Notes from './components/Notes'
+import VisibilityFilter from './components/VisibilityFilter'
 
 
 const App = () => {
-  const dispatch = useDispatch()
-  const notes = useSelector(state => state)
-
-  const toggleImportance = (id) => {
-    dispatch(toggleImportanceOf(id))
+  const filterSelected = (value) => {
+    console.log(value)
   }
-
   return (
     <div>
-      <NoteForm/>
-      <Notes/>
+      <NoteForm />
+      <VisibilityFilter/>
+      <Notes />
     </div>
   )
 }

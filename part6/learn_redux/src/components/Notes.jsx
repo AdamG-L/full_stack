@@ -12,7 +12,16 @@ const Note = ({ note, handleClick }) => {
 
 const Notes = () => {
     const dispatch = useDispatch()
-    const notes = useSelector(state => state)
+    const notes = useSelector(({filter, notes}) => {
+        if (filter === 'ALL'){
+            return notes
+        }
+        else if (filter === 'IMPORTANT'){
+            return notes.filter(n => n.important)
+        } else {
+            return notes.filter(n => !n.important)
+        }
+    })
     console.log("Debugging: ", notes)
 
     return (
