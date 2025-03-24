@@ -1,53 +1,40 @@
+import { createSlice } from "@reduxjs/toolkit"
+
 const initialState = [
     {
-      content: 'reducer defines how redux store works',
-      important: true,
-      id: 1,
+        content: 'reducer defines how redux store works',
+        important: true,
+        id: 1,
     },
     {
-      content: 'state of store can contain any data',
-      important: false,
-      id: 2,
+        content: 'state of store can contain any data',
+        important: false,
+        id: 2,
     },
-  ]
-  
-
-const noteReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case 'NEW_NOTE':
-            return [...state, action.payload]
-        case 'TOGGLE_IMPORTANCE':
-            const id = action.payload.id
-            const noteToChange = state.find(n => n.id == id)
-            const newNote = {
-                ...noteToChange,
-                important: !noteToChange.important
-            }
-            return state.map(n => n.id === id ? newNote : n)
-        default:
-            return state
-    }
-}
+]
 
 const generateId = () =>
     Number((Math.random() * 1000000).toFixed(0))
 
-export const createNote = (content) => {
-    return {
-        type: 'NEW_NOTE',
-        payload: {
-            content,
-            important: false,
-            id: generateId()
+
+const noteSlice = createSlice({
+    name: 'notes',
+    initialState,
+    reducers: {
+        createNote(state, action) {
+            const content = action.payload
+            state.push({
+                content,
+                important: false,
+                id: generateId()
+            })
+        },
+        toggleImportance(state, action) {
+            const note = state.find(n => n.id === action.payload)
+            note.important = !note.important
         }
     }
-}
+})
 
-export const toggleImportanceOf = (id) => {
-    return {
-        type: 'TOGGLE_IMPORTANCE',
-        payload: { id }
-    }
-}
-
-export default noteReducer
+export const { createNote, toggleImportanceOf } = noteSlice.actions
+export default noteSlice.reducer
