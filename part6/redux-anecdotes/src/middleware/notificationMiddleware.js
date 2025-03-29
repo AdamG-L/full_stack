@@ -15,7 +15,7 @@ const notificationMiddleware = (store) => (next) => (action) => {
         }, 5000)
     }
     else if (action.type === add.type) {
-        store.dispatch(createNotification(`Anecdote: "${action.payload}" was added!`))
+        store.dispatch(createNotification(`Anecdote: "${action.payload.content}" was added!`))
         clearTimeout(timeoutId)
         timeoutId = setTimeout(() => {
             store.dispatch(deleteNotification())
