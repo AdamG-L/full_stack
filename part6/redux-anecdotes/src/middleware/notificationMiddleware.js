@@ -1,10 +1,10 @@
 import { createNotification, deleteNotification } from "../reducers/notificationReducer"
-import { upvote, add } from "../reducers/anecdoteReducer";
+import { updateAnecdote, addAnecdote } from "../reducers/anecdoteReducer";
 
 let timeoutId = null
 
 const notificationMiddleware = (store) => (next) => (action) => {
-    if (action.type === upvote.type) {
+    if (action.type === updateAnecdote.type) {
         const id = action.payload
         const state = store.getState();
         const anecdote = state.anecdotes.find(a => a.id === id)
@@ -14,7 +14,7 @@ const notificationMiddleware = (store) => (next) => (action) => {
             store.dispatch(deleteNotification())
         }, 5000)
     }
-    else if (action.type === add.type) {
+    else if (action.type === addAnecdote.type) {
         store.dispatch(createNotification(`Anecdote: "${action.payload.content}" was added!`))
         clearTimeout(timeoutId)
         timeoutId = setTimeout(() => {

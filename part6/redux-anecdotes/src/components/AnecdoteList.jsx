@@ -1,11 +1,11 @@
 import { useSelector, useDispatch, shallowEqual } from 'react-redux'
-import { upvote } from '../reducers/anecdoteReducer'
+import { updateAnecdote } from '../reducers/anecdoteReducer'
 
 const AnecdoteList = () => {
-    const anecdotes = useSelector(({filter, anecdotes}) => {
+    const anecdotes = useSelector(({ filter, anecdotes }) => {
         return anecdotes.filter(a => a.content.toLowerCase().includes(filter))
     }, shallowEqual)
-    const sortedAnecdotes = anecdotes.toSorted((a,b) => b.votes - a.votes)
+    const sortedAnecdotes = anecdotes.toSorted((a, b) => b.votes - a.votes)
     const dispatch = useDispatch()
     return (
         <div>
@@ -16,7 +16,12 @@ const AnecdoteList = () => {
                     </div>
                     <div>
                         has {anecdote.votes}
-                        <button onClick={() => dispatch(upvote(anecdote.id))}>vote</button>
+                        <button onClick={() => dispatch(updateAnecdote(
+                            {
+                                ...anecdote,
+                                votes: anecdote.votes + 1
+                            }
+                        ))}>vote</button>
                     </div>
                 </div>
             )}
