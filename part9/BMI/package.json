@@ -10,6 +10,7 @@
     "multiply": "ts-node multiplier.ts",
     "calculate": "ts-node calculator.ts",
     "bmi": "ts-node bmiCalculator.ts",
+    "exercise": "ts-node exerciseCalculator.ts",
     "ts-node": "ts-node"
   },
   "devDependencies": {
