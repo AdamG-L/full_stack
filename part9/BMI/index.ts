@@ -1,11 +1,13 @@
 import express, { NextFunction, Request, Response } from 'express'
 import { calculateBMI } from './bmiCalculator'
+import { calculateExercises } from './exerciseCalculator'
 const app = express()
+app.use(express.json())
 
 class ClientError extends Error {
     constructor(message: string) {
-      super(message)
-      this.name = 'ClientError'
+        super(message)
+        this.name = 'ClientError'
     }
 }
 
@@ -33,8 +35,22 @@ app.get('/bmi', (req, res) => {
     })
 })
 
+app.post('/exercises', (req, res) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment   
+    const { daily_exercises, target } = req.body
+
+    if (!Array.isArray(daily_exercises)
+        || !daily_exercises.every(d => typeof d === 'number')) {
+        throw new ClientError('daily_exercises not a valid number array')
+    }
+    if (typeof target !== 'number' ) {
+        throw new ClientError('target must be a number')
+    }
+    res.send(calculateExercises(target, daily_exercises))
+})
+
 app.use((err: Error, _req: Request, res: Response, next: NextFunction) => {
-    if (err instanceof ClientError){
+    if (err instanceof ClientError) {
         res.status(400).json({ error: err.message })
     } else {
         next(err)

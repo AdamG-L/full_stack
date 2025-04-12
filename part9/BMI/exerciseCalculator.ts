@@ -1,4 +1,4 @@
-interface ExerciseStats {
+export interface ExerciseStats {
     periodLength: number,
     trainingDays: number,
     success: boolean,
@@ -8,7 +8,7 @@ interface ExerciseStats {
     average: number
 }
 
-const calculateExercises = (target: number, days: number[]): ExerciseStats => {
+export const calculateExercises = (target: number, days: number[]): ExerciseStats => {
     console.log(target, days)
     const trainingDays = days.filter(day => day > 0)
     const average = trainingDays.reduce((acc, day) => acc + day, 0) / days.length
@@ -59,15 +59,15 @@ const parseTrainArgs = (args: string[]): TrainingData => {
     }
 }
 
-//console.log(calculateExercises(2, [3, 0, 2, 4.5, 0, 3, 1]))
-try {
-    const {target, days} = parseTrainArgs(process.argv)
-    console.log(calculateExercises(target, days))
-} catch (error: unknown) {
-    let errorMessage = 'Something bad happened.'
-    if (error instanceof Error) {
-      errorMessage += ' Error: ' + error.message
+if (require.main === module) {
+    try {
+        const { target, days } = parseTrainArgs(process.argv)
+        console.log(calculateExercises(target, days))
+    } catch (error: unknown) {
+        let errorMessage = 'Something bad happened.'
+        if (error instanceof Error) {
+            errorMessage += ' Error: ' + error.message
+        }
+        console.log(errorMessage)
     }
-    console.log(errorMessage) 
 }
-
