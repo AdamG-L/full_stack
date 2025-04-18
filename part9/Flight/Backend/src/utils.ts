@@ -17,7 +17,7 @@ const toNewDiaryEntry = (object: unknown): NewDiaryEntry => {
 }
 
 const parseComment = (comment: unknown): string => {
-    if (typeof comment !== 'string') {
+    if (typeof comment !== 'string' || !comment) {
         throw new Error('Incorrect or missing comment')
     }
     return comment
