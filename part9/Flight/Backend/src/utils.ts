@@ -1,14 +1,19 @@
-import { NewDiaryEntry, Weather } from './types';
+import { NewDiaryEntry, Visibility, Weather } from './types';
 
 const toNewDiaryEntry = (object: unknown): NewDiaryEntry => {
-    parseComment('TODO')
-    parseDate('TODO')
-    parseWeather('TODO')
-    const newEntry: NewDiaryEntry = {
-        // ...
+    if (!object || typeof object !== "object") {
+        throw new Error('Invalid data passed to toNewDiaryEntry')
     }
-
-    return newEntry
+    if ('comment' in object && 'date' in object &&
+        'weather' in object && 'visibility' in object) {
+        return {
+            weather: parseWeather(object.weather),
+            visibility: parseVisibility(object.visibility),
+            date: parseDate(object.date),
+            comment: parseComment(object.comment)
+        }
+    }
+    throw new Error('Failed to parse all data fields')
 }
 
 const parseComment = (comment: unknown): string => {
@@ -26,15 +31,26 @@ const parseDate = (date: unknown): string => {
 }
 
 const parseWeather = (weather: unknown): Weather => {
-    if(typeof weather !== 'string' || !isWeather(weather)){
-        throw new Error('Invalid weather input')
+    if (typeof weather === 'string' && isWeather(weather)) {
+        return weather
     }
-    return weather
+    throw new Error('Invalid weather input')
 }
 
 // Get string values of enums and check for match
 const isWeather = (param: string): param is Weather => {
     return Object.values(Weather).map(v => v.toString()).includes(param)
+}
+
+const parseVisibility = (visibility: unknown): Visibility => {
+    if (typeof visibility === 'string' && isVisibility(visibility)) {
+        return visibility
+    }
+    throw new Error('Invalid visibility input')
+}
+
+const isVisibility = (param: string): param is Visibility => {
+    return Object.values(Visibility).map(v => v.toString()).includes(param)
 }
 
 export default toNewDiaryEntry
