@@ -19,14 +19,14 @@ const parseNewPatient = (object: unknown): NewPatient => {
 }
 
 const parseName = (name: unknown): string => {
-    if (typeof name !== 'string'){
+    if (typeof name !== 'string' || !name){
         throw new Error('Name must have a string value')
     }
     return name
 }
 
 const parseDOB = (dob: unknown): string => {
-    if (typeof dob !== 'string'){
+    if (typeof dob !== 'string' || !dob){
         throw new Error('DOB must have a string value')
     }
     return dob
@@ -51,7 +51,7 @@ const isGender = (param: string): param is Gender => {
 }
 
 const parseOccupation = (occupation: unknown): string => {
-    if (typeof occupation !== 'string'){
+    if (typeof occupation !== 'string' || !occupation){
         throw new Error('Occupation must have a string value')
     }
     return occupation
