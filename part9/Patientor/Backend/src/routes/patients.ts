@@ -1,27 +1,19 @@
 import express from 'express'
-import {Response} from 'express'
-import { PatientPublic } from '../types'
+import { Response, Request } from 'express'
+import { NewPatient, Patient, PatientPublic } from '../types'
 import patientService from '../services/patientService'
-import parseNewPatient from '../utils'
+import { newPatientParser } from '../utils/middleware'
 
 const router = express.Router()
 
 router.get('/', (_req, res: Response<PatientPublic[]>) => {
-    res.send(patientService.getEntries())
+  res.send(patientService.getEntries())
 })
 
-router.post('/', (req, res) => {
-    try {
-        const newPatient = parseNewPatient(req.body)
-        const patient = patientService.addPatient(newPatient)
-        res.status(201).send(patient)
-      } catch (error: unknown) {
-        let errorMessage = 'Something went wrong.'
-        if (error instanceof Error) {
-          errorMessage += ' Error: ' + error.message
-        }
-        res.status(400).send(errorMessage)
-      }
+router.post('/', newPatientParser, (req: Request<unknown, unknown, NewPatient>,
+   res: Response<Patient>) => {
+  const patient = patientService.addPatient(req.body)
+  res.status(201).send(patient)
 })
 
 export default router

@@ -1,3 +1,4 @@
+import {z} from 'zod'
 export interface Diagnosis {
     code: string,
     name: string,
@@ -21,3 +22,11 @@ export enum Gender{
 
 export type PatientPublic = Omit<Patient, 'ssn'>
 export type NewPatient = Omit<Patient, 'id'>
+
+export const NewPatientSchema = z.object({
+    name: z.string(),
+    dateOfBirth: z.string().date(),
+    ssn: z.string(),
+    gender: z.nativeEnum(Gender),
+    occupation: z.string(),
+})

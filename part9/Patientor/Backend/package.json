@@ -14,7 +14,8 @@
   "dependencies": {
     "express": "^4.21.2",
     "cors": "^2.8.5",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "zod": "^3.24.3"
   },
   "devDependencies": {
     "express-async-errors": "^3.1.1",
@@ -27,6 +28,5 @@
     "@eslint/js": "^9.24.0",
     "typescript-eslint": "^8.29.1",
     "@stylistic/eslint-plugin": "^4.2.0"
-    
   }
 }
