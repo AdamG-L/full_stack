@@ -22,6 +22,17 @@ const Part = ({ part }: PartProp) => {
             return <p>{basePart}
                 Background Material: {part.backgroundMaterial} <br />
                 Description: {part.description}</p>
+        case "special":
+            return <p>{basePart}
+                Description: {part.description}
+                <br />
+                Requirements:
+                <ul>
+                    {part.requirements.map((req, index) => (
+                        <li key={index}>{req}</li>
+                    ))}
+                </ul>
+            </p>
         default:
             assertNever(part)
 
