@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express"
-import { NewEntrySchema } from "../types"
+import { NewEntrySchema } from '../../../types'
 import { z } from "zod"
 
 

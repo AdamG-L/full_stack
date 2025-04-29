@@ -1,7 +1,7 @@
 import express from 'express'
 import { Request, Response } from 'express'
 import diaryService from '../services/diaryService'
-import { DiaryEntry, NewDiaryEntry, NonSensitiveDiaryEntry } from '../types'
+import { DiaryEntry, NewDiaryEntry, NonSensitiveDiaryEntry } from '../../../types'
 import { newDiaryParser } from '../utils/middleware'
 
 const router = express.Router()

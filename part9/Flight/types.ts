@@ -20,7 +20,8 @@ export interface DiaryEntry {
     visibility: Visibility;
     comment?: string;
   }
-  export type NonSensitiveDiaryEntry = Omit<DiaryEntry, 'comment'>
+  
+export type NonSensitiveDiaryEntry = Omit<DiaryEntry, 'comment'>
 
 export const NewEntrySchema = z.object({
     weather: z.nativeEnum(Weather),
