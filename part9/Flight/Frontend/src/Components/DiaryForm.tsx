@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Visibility, Weather } from "../../../types"
 
 type DiaryFormProp = {
     handleCreateDiary: (data: object) => Promise<boolean>,
@@ -12,30 +13,49 @@ const DiaryForm = ({ handleCreateDiary }: DiaryFormProp) => {
 
     const onSubmit = async (event: React.SyntheticEvent) => {
         event.preventDefault()
-        const success = await handleCreateDiary({date, weather, 
-            visibility, comment})
-        if(success){
+        const success = await handleCreateDiary({
+            date, weather,
+            visibility, comment
+        })
+        if (success) {
             setDate("")
             setWeather("")
             setVisibility("")
             setComment("")
         }
     }
-
     return (
         <form onSubmit={onSubmit}>
             Date:
             <input value={date} onChange={({ target }) => setDate(target.value)} />
-            <br/>
+            <br />
             Weather:
-            <input value={weather} onChange={({ target }) => setWeather(target.value)} />
-            <br/>
+            {Object.values(Weather).map(option => (
+                <label key={option}>
+                    <input type="radio"
+                        name="weather"
+                        value={option}
+                        checked={weather === option}
+                        onChange={({ target }) => setWeather(target.value)} />
+                    {option}
+                </label>
+            ))}
+            <br />
             Visibility:
-            <input value={visibility} onChange={({ target }) => setVisibility(target.value)} />
-            <br/>
+            {Object.values(Visibility).map(option => (
+                <label key={option}>
+                    <input type="radio"
+                        name="visibility"
+                        value={option}
+                        checked={visibility === option}
+                        onChange={({ target }) => setVisibility(target.value)} />
+                    {option}
+                </label>
+            ))}
+            <br />
             Comment:
             <input value={comment} onChange={({ target }) => setComment(target.value)} />
-            <br/>
+            <br />
             <button type="submit">Add Diary</button>
         </form>
     )
