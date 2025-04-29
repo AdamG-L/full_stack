@@ -27,7 +27,7 @@ const DiaryForm = ({ handleCreateDiary }: DiaryFormProp) => {
     return (
         <form onSubmit={onSubmit}>
             Date:
-            <input value={date} onChange={({ target }) => setDate(target.value)} />
+            <input type="date" value={date} onChange={({ target }) => setDate(target.value)} />
             <br />
             Weather:
             {Object.values(Weather).map(option => (
