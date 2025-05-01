@@ -27,9 +27,6 @@ const PatientPage = ({ patient }: Props) => {
                     <Typography color="text.secondary">
                         Occupation: {patient.occupation}
                     </Typography>
-                    <Typography color="text.secondary">
-                        SSN: {patient.ssn}
-                    </Typography>
                 </CardContent>
             </Card>
         </Box>
