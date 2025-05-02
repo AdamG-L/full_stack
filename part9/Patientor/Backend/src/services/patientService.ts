@@ -1,9 +1,9 @@
-import { NewPatient, Patient, PatientPublic } from "../types"
+import { NewPatient, Patient } from "../types"
 import patients from "../../data/patients"
 import { v4 as uuid } from 'uuid'
 
-const getEntries = (): PatientPublic[] => {
-    return patients.map(({ ssn: _ssn, ...publicData }) => publicData)
+const getEntries = (): Patient[] => {
+    return patients.map(({ ...data }) => data)
 }
 
 const addPatient = (patient: NewPatient): Patient => {
