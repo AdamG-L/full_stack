@@ -12,7 +12,7 @@ const PatientPage = ({ patient }: Props) => {
         return <Alert severity="error">Error: Patient could not be found</Alert>;
     }
     return (
-        <Box mt={4} display="flex" justifyContent="center">
+        <Box mt={4} display="flex" flexDirection="column" justifyContent="center" alignItems="center" gap={2}>
             <Card sx={{ minWidth: 300, maxWidth: 500 }}>
                 <CardContent>
                     <Typography variant="h5" component="div" gutterBottom>
@@ -26,6 +26,14 @@ const PatientPage = ({ patient }: Props) => {
                     </Typography>
                     <Typography color="text.secondary">
                         Occupation: {patient.occupation}
+                    </Typography>
+                </CardContent>
+            </Card>
+            {patient.}
+            <Card sx={{ minWidth: 300, maxWidth: 500 }}>
+                <CardContent>
+                    <Typography variant="h5" component="div" gutterBottom>
+                        Entry
                     </Typography>
                 </CardContent>
             </Card>

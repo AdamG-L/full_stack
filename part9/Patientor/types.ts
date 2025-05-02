@@ -5,7 +5,7 @@ type UnionOmit<T, K extends string | number | symbol>
 /*****************************************/
 
 /******  Diagnosis type definitions ******/
-export interface DiagnosisSchema{
+export interface Diagnosis{
     code: string,
     name: string,
     latin?: string,

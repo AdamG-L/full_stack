@@ -1,6 +1,6 @@
 import express from 'express'
 import { Response, Request } from 'express'
-import { NewPatient, Patient } from '../types'
+import { NewPatient, Patient } from '../../../types'
 import patientService from '../services/patientService'
 import { newPatientParser } from '../utils/middleware'
 
