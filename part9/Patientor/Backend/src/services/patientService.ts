@@ -10,7 +10,6 @@ const addPatient = (patient: NewPatient): Patient => {
     const addedPatient = {
         id: uuid(),
         ...patient,
-        entries: [],
     }
     patients.push(addedPatient)
     return addedPatient

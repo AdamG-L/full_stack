@@ -1,11 +1,11 @@
-import {z} from 'zod'
+import { z } from 'zod'
 /******  Custom Union ******/
-type UnionOmit<T, K extends string | number | symbol> 
-= T extends unknown ? Omit<T, K> : never
+type UnionOmit<T, K extends string | number | symbol>
+    = T extends unknown ? Omit<T, K> : never
 /*****************************************/
 
 /******  Diagnosis type definitions ******/
-export interface Diagnosis {
+export interface DiagnosisSchema{
     code: string,
     name: string,
     latin?: string,
@@ -14,80 +14,90 @@ export interface Diagnosis {
 
 
 /******  Entry type definitions ******/
-export interface BaseEntry {
-    id: string, 
-    description: string,
-    date: string,
-    specialist: string,
-    diagnosisCodes?: Array<Diagnosis['code']>,
-}
+const BaseEntrySchema = z.object({
+    id: z.string(),
+    description: z.string(),
+    date: z.string(),
+    specialist: z.string(),
+    diagnosisCodes: z.array(z.string()).optional(),
+})
 
-export enum HealthCheckRating {
+enum HealthCheckRating {
     "Healthy" = 0,
     "LowRisk" = 1,
     "HighRisk" = 2,
     "CriticalRisk" = 3,
 }
 
-export interface SickLeave {
-    startDate: string,
-    endDate: string,
-}
+const SickLeaveSchema = z.object({
+    startDate: z.string(),
+    endDate: z.string(),
+})
 
-export interface Discharge {
-    date: string, 
-    criteria: string,
-}
+const Discharge = z.object({
+    date: z.string(),
+    criteria: z.string(),
+})
 
-export interface HealthCheckEntry extends BaseEntry {
-    type: "HealthCheck",
-    healthCheckRating: HealthCheckRating,
-}
+const HealthCheckEntrySchema = BaseEntrySchema.extend({
+    type: z.literal("HealthCheck"),
+    healthCheckRating: z.nativeEnum(HealthCheckRating),
+})
 
-export interface OccupationalHealthcareEntry extends BaseEntry {
-    type: "OccupationalHealthcare",
-    employerName: string,
-    sickLeave?: SickLeave,
-}
+const OccupationalHealthcareEntrySchema = BaseEntrySchema.extend({
+    type: z.literal("OccupationalHealthcare"),
+    employerName: z.string(),
+    sickLeave: SickLeaveSchema.optional(),
+})
 
-export interface HospitalEntry extends BaseEntry {
-    type: "Hospital",
+const HospitalEntrySchema = BaseEntrySchema.extend({
+    type: z.literal("Hospital"),
     discharge: Discharge,
-}
+})
+
+const EntrySchema = z.discriminatedUnion("type", [
+    HealthCheckEntrySchema,
+    OccupationalHealthcareEntrySchema,
+    HospitalEntrySchema,
+])
+
+export type HealthCheckEntry = z.infer<typeof HealthCheckEntrySchema>
+export type OccupationalHealthcareEntry = z.infer<typeof OccupationalHealthcareEntrySchema>
+export type HospitalEntry = z.infer<typeof HospitalEntrySchema>
 
 export type Entry =
-  | HospitalEntry
-  | OccupationalHealthcareEntry
-  | HealthCheckEntry
+    | HospitalEntry
+    | OccupationalHealthcareEntry
+    | HealthCheckEntry
 /*****************************************/
 
 
 /******  Patient type definitions ******/
-export interface Patient {
-    id: string,
-    name: string,
-    dateOfBirth: string,
-    ssn: string, 
-    gender: Gender, 
-    occupation: string,
-    entries: Entry[],
-}
-
-export enum Gender{
+export enum Gender {
     Male = 'male',
     Female = 'female',
     Other = 'other'
 }
 
-export type PatientPublic = UnionOmit<Patient, 'ssn' | 'entries'>
-export type NewPatient = UnionOmit<Patient, 'id'>
+export interface Patient{ 
+    id: string,
+    name: string,
+    dateOfBirth: string,
+    ssn: string,
+    gender: Gender,
+    occupation: string,
+    entries: Entry[]
+}
 
 export const NewPatientSchema = z.object({
     name: z.string(),
-    dateOfBirth: z.string().date(),
+    dateOfBirth: z.string(),
     ssn: z.string(),
     gender: z.nativeEnum(Gender),
     occupation: z.string(),
+    entries: z.array(EntrySchema),
 })
-/*****************************************/
 
+export type PatientPublic = UnionOmit<Patient, 'ssn' | 'entries'>
+export type NewPatient = UnionOmit<Patient, 'id'>
+/*****************************************/
