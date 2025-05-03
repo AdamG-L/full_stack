@@ -18,7 +18,7 @@ const BaseEntrySchema = z.object({
     diagnosisCodes: z.array(z.string()).optional(),
 })
 
-enum HealthCheckRating {
+export enum HealthCheckRating {
     "Healthy" = 0,
     "LowRisk" = 1,
     "HighRisk" = 2,

@@ -8,7 +8,7 @@ type Props = {
 }
 
 const HospitalView = ({ entry, diagnoses }: Props) => (
-    <Card key={entry.id} sx={{ minWidth: 300, maxWidth: 500, m: 2 }}
+    <Card key={entry.id} sx={{ minWidth: 500, maxWidth: 500, m: 2 }}
         elevation={3}>
         <CardContent>
             <Typography variant="h6" sx={{
@@ -20,23 +20,27 @@ const HospitalView = ({ entry, diagnoses }: Props) => (
             <Typography variant="body1" color="text.secondary">
                 <i>{entry.description}</i>
             </Typography>
-            <Typography variant="subtitle1" sx={{ mt: 2 }}>
-                Diagnoses
-            </Typography>
-            <List dense>
-                {entry.diagnosisCodes?.map(code => (
-                    <ListItem key={code}>
-                        <ListItemText slotProps={{
-                            primary: {
-                                color: 'text.secondary', variant: 'body2'
-                            }
-                        }}
-                            primary={`${code} ${diagnoses.
-                                find(d => d.code === code)?.name}`}
-                        />
-                    </ListItem>
-                ))}
-            </List>
+            {entry.diagnosisCodes && entry.diagnosisCodes?.length > 0 && (
+                <>
+                    <Typography variant="subtitle1" sx={{ mt: 2 }}>
+                        Diagnoses
+                    </Typography>
+                    <List dense>
+                        {entry.diagnosisCodes?.map(code => (
+                            <ListItem key={code}>
+                                <ListItemText slotProps={{
+                                    primary: {
+                                        color: 'text.secondary', variant: 'body2'
+                                    }
+                                }}
+                                    primary={`${code} ${diagnoses.
+                                        find(d => d.code === code)?.name}`}
+                                />
+                            </ListItem>
+                        ))}
+                    </List>
+                </>
+            )}
             <Divider sx={{ my: 1 }} />
             <Typography variant="subtitle1" sx={{ mt: 2 }}>
                 Discharge

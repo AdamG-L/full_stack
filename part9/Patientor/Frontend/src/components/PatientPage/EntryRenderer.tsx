@@ -1,4 +1,5 @@
 import { Diagnosis, Entry } from "../../../../types"
+import HealthCheckView from "./HealthCheckView"
 import HospitalView from "./HospitalView"
 
 type Props = {
@@ -12,7 +13,7 @@ const EntryRenderer = ({entry, diagnoses}: Props) => {
         case "OccupationalHealthcare":
             return "OccupationalHealthcare"
         case "HealthCheck":
-            return "HealthCheck"
+            return <HealthCheckView entry={entry} diagnoses={diagnoses}/>
     }
 }
 
