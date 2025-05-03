@@ -57,6 +57,7 @@ const EntrySchema = z.discriminatedUnion("type", [
     HospitalEntrySchema,
 ])
 
+export type SickLeave = z.infer<typeof SickLeaveSchema>
 export type Discharge = z.infer<typeof DischargeSchema>
 export type HealthCheckEntry = z.infer<typeof HealthCheckEntrySchema>
 export type OccupationalHealthcareEntry = z.infer<typeof OccupationalHealthcareEntrySchema>
