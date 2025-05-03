@@ -51,7 +51,7 @@ const HospitalEntrySchema = BaseEntrySchema.extend({
     discharge: DischargeSchema,
 })
 
-const EntrySchema = z.discriminatedUnion("type", [
+export const EntrySchema = z.discriminatedUnion("type", [
     HealthCheckEntrySchema,
     OccupationalHealthcareEntrySchema,
     HospitalEntrySchema,

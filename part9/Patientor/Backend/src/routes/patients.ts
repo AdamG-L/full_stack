@@ -1,8 +1,8 @@
 import express from 'express'
 import { Response, Request } from 'express'
-import { NewPatient, Patient } from '../../../types'
+import { Entry, NewPatient, Patient } from '../../../types'
 import patientService from '../services/patientService'
-import { newPatientParser } from '../utils/middleware'
+import { newEntryParser, newPatientParser } from '../utils/middleware'
 
 const router = express.Router()
 
@@ -24,6 +24,15 @@ router.post('/', newPatientParser, (req: Request<unknown, unknown, NewPatient>,
    res: Response<Patient>) => {
   const patient = patientService.addPatient(req.body)
   res.status(201).send(patient)
+})
+
+router.post('/:id/entries', newEntryParser, (req: Request<{ id: string }, unknown, Entry>, res: Response) => {
+  const entry = patientService.addEntry(req.body, req.params.id)
+  if(!entry) {
+    res.status(404).json({ error: 'Patient not found' })
+  } else {
+    res.status(200).send(entry)
+  }
 })
 
 export default router

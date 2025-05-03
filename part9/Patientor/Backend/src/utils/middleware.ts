@@ -1,10 +1,19 @@
 import { Request, Response, NextFunction } from "express"
 import {z} from 'zod'
-import { NewPatientSchema } from "../../../types"
+import { EntrySchema, NewPatientSchema } from "../../../types"
 
 export const newPatientParser = (req: Request, _res: Response, next: NextFunction) => {
     try {
         NewPatientSchema.parse(req.body)
+        next()
+    } catch (error: unknown) {
+        next(error)
+    }
+}
+
+export const newEntryParser = (req: Request, _res: Response, next: NextFunction) => {
+    try {
+        EntrySchema.parse(req.body)
         next()
     } catch (error: unknown) {
         next(error)
