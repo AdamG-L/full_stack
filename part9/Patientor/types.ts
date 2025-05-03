@@ -30,7 +30,7 @@ const SickLeaveSchema = z.object({
     endDate: z.string(),
 })
 
-const Discharge = z.object({
+const DischargeSchema = z.object({
     date: z.string(),
     criteria: z.string(),
 })
@@ -48,7 +48,7 @@ const OccupationalHealthcareEntrySchema = BaseEntrySchema.extend({
 
 const HospitalEntrySchema = BaseEntrySchema.extend({
     type: z.literal("Hospital"),
-    discharge: Discharge,
+    discharge: DischargeSchema,
 })
 
 const EntrySchema = z.discriminatedUnion("type", [
@@ -57,6 +57,7 @@ const EntrySchema = z.discriminatedUnion("type", [
     HospitalEntrySchema,
 ])
 
+export type Discharge = z.infer<typeof DischargeSchema>
 export type HealthCheckEntry = z.infer<typeof HealthCheckEntrySchema>
 export type OccupationalHealthcareEntry = z.infer<typeof OccupationalHealthcareEntrySchema>
 export type HospitalEntry = z.infer<typeof HospitalEntrySchema>

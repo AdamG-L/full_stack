@@ -5,6 +5,7 @@ import Person from '@mui/icons-material/Person'
 import { Diagnosis, Gender, Patient } from "../../../../types"
 import diagnosisService from "../../services/diagnoses"
 import { useEffect, useState } from "react"
+import EntryRenderer from "./EntryRenderer"
 
 type Props = {
     patient: Patient | null | undefined
@@ -12,21 +13,20 @@ type Props = {
 const PatientPage = ({ patient }: Props) => {
     const [diagnoses, setDiagnoses] = useState<Diagnosis[]>([])
 
+    useEffect(() => {
+        const getDiagnoses = async () => {
+            const fetchedDiagnoses = await diagnosisService.getAll()
+            setDiagnoses(fetchedDiagnoses)
+        }
+        getDiagnoses()
+    }, [])
+
     if (!patient) {
         return <Alert severity="error">Error: Patient could not be found</Alert>;
     }
-
-    useEffect (() => {
-        const getDiagnoses = async () => {
-            const fetchedDiagnoses  = await diagnosisService.getAll()
-            setDiagnoses(fetchedDiagnoses)
-        } 
-        getDiagnoses()
-    }, [])
-    
     return (
-        <Box mt={4} display="flex" flexDirection="column" justifyContent="center" alignItems="center" gap={2}>
-            <Card sx={{ minWidth: 300, maxWidth: 500 }}>
+        <Box mt={4} display="flex" flexDirection="column" alignItems="center" gap={2}>
+            <Card sx={{ minWidth: 300, maxWidth: 500}}>
                 <CardContent>
                     <Typography variant="h5" component="div" gutterBottom>
                         {patient.name} {getGenderIcon(patient.gender)}
@@ -43,23 +43,7 @@ const PatientPage = ({ patient }: Props) => {
                 </CardContent>
             </Card>
             {patient.entries.map(entry => (
-                <Card key={entry.id} sx={{ minWidth: 300, maxWidth: 500 }}>
-                    <CardContent>
-                        <Typography color="text.secondary">
-                            {entry.date}
-                        </Typography>
-                        <Typography color="text.secondary">
-                            {entry.description}
-                        </Typography>
-
-                        {entry.diagnosisCodes?.map(code => (
-                            <Typography key={code} color="text.secondary">
-                                {code} {diagnoses.find(d => d.code === code)?.name}
-                            </Typography>
-                        ))}
-
-                    </CardContent>
-                </Card>
+                <EntryRenderer key={entry.id} entry={entry} diagnoses={diagnoses}/>
             ))}
         </Box>
     )
