@@ -1,8 +1,4 @@
 import { z } from 'zod'
-/******  Custom Union ******/
-type UnionOmit<T, K extends string | number | symbol>
-    = T extends unknown ? Omit<T, K> : never
-/*****************************************/
 
 /******  Diagnosis type definitions ******/
 export interface Diagnosis{
@@ -97,7 +93,7 @@ export const NewPatientSchema = z.object({
     occupation: z.string(),
     entries: z.array(EntrySchema),
 })
-
-export type PatientPublic = UnionOmit<Patient, 'ssn' | 'entries'>
-export type NewPatient = UnionOmit<Patient, 'id'>
+export type PatientFormValues = Omit<Patient, "id" | "entries">;
+export type PatientPublic = Omit<Patient, 'ssn' | 'entries'>
+export type NewPatient = Omit<Patient, 'id'>
 /*****************************************/

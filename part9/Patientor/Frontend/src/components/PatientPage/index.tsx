@@ -1,4 +1,4 @@
-import { Alert, Box, Card, CardContent, Typography,  } from "@mui/material"
+import { Alert, Box, Card, CardContent, Typography, } from "@mui/material"
 import MaleIcon from '@mui/icons-material/Male'
 import FemaleIcon from '@mui/icons-material/Female'
 import Person from '@mui/icons-material/Person'
@@ -29,14 +29,25 @@ const PatientPage = ({ patient }: Props) => {
                     </Typography>
                 </CardContent>
             </Card>
-            {patient.}
-            <Card sx={{ minWidth: 300, maxWidth: 500 }}>
-                <CardContent>
-                    <Typography variant="h5" component="div" gutterBottom>
-                        Entry
-                    </Typography>
-                </CardContent>
-            </Card>
+            {patient.entries.map(entry => (
+                <Card key={entry.id} sx={{ minWidth: 300, maxWidth: 500 }}>
+                    <CardContent>
+                        <Typography color="text.secondary">
+                            {entry.date}
+                        </Typography>
+                        <Typography color="text.secondary">
+                            {entry.description}
+                        </Typography>
+
+                        {entry.diagnosisCodes?.map(code => (
+                            <Typography key={code} color="text.secondary">
+                                {code}
+                            </Typography>
+                        ))}
+
+                    </CardContent>
+                </Card>
+            ))}
         </Box>
     )
 }
@@ -44,12 +55,12 @@ const PatientPage = ({ patient }: Props) => {
 const getGenderIcon = (gender: Gender) => {
     switch (gender) {
         case Gender.Male:
-          return <MaleIcon />
+            return <MaleIcon />
         case Gender.Female:
-          return <FemaleIcon />
+            return <FemaleIcon />
         default:
-          return <Person />
-      }
+            return <Person />
+    }
 }
 
 export default PatientPage
