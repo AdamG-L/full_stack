@@ -2,15 +2,28 @@ import { Alert, Box, Card, CardContent, Typography, } from "@mui/material"
 import MaleIcon from '@mui/icons-material/Male'
 import FemaleIcon from '@mui/icons-material/Female'
 import Person from '@mui/icons-material/Person'
-import { Gender, Patient } from "../../../../types"
+import { Diagnosis, Gender, Patient } from "../../../../types"
+import diagnosisService from "../../services/diagnoses"
+import { useEffect, useState } from "react"
 
 type Props = {
     patient: Patient | null | undefined
 }
 const PatientPage = ({ patient }: Props) => {
+    const [diagnoses, setDiagnoses] = useState<Diagnosis[]>([])
+
     if (!patient) {
         return <Alert severity="error">Error: Patient could not be found</Alert>;
     }
+
+    useEffect (() => {
+        const getDiagnoses = async () => {
+            const fetchedDiagnoses  = await diagnosisService.getAll()
+            setDiagnoses(fetchedDiagnoses)
+        } 
+        getDiagnoses()
+    }, [])
+    
     return (
         <Box mt={4} display="flex" flexDirection="column" justifyContent="center" alignItems="center" gap={2}>
             <Card sx={{ minWidth: 300, maxWidth: 500 }}>
@@ -41,7 +54,7 @@ const PatientPage = ({ patient }: Props) => {
 
                         {entry.diagnosisCodes?.map(code => (
                             <Typography key={code} color="text.secondary">
-                                {code}
+                                {code} {diagnoses.find(d => d.code === code)?.name}
                             </Typography>
                         ))}
 
