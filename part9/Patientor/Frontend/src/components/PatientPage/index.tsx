@@ -2,7 +2,7 @@ import { Alert, Box, Card, CardContent, Typography,  } from "@mui/material"
 import MaleIcon from '@mui/icons-material/Male'
 import FemaleIcon from '@mui/icons-material/Female'
 import Person from '@mui/icons-material/Person'
-import { Gender, Patient } from "../../types"
+import { Gender, Patient } from "../../../../types"
 
 type Props = {
     patient: Patient | null | undefined

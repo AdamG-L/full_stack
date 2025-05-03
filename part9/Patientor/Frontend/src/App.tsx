@@ -4,7 +4,7 @@ import { Route, Link, Routes, useMatch } from "react-router-dom";
 import { Button, Divider, Container, Typography } from '@mui/material';
 
 import { apiBaseUrl } from "./constants";
-import { Patient } from "./types";
+import { Patient } from "../../types";
 
 import patientService from "./services/patients";
 import PatientListPage from "./components/PatientListPage";

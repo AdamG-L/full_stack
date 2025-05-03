@@ -3,7 +3,7 @@ import { Box, Table, Button, TableHead, Typography, TableCell, TableRow, TableBo
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-import { PatientFormValues, Patient } from "../../types";
+import { PatientFormValues, Patient } from "../../../../types";
 import AddPatientModal from "../AddPatientModal";
 
 import HealthRatingBar from "../HealthRatingBar";
