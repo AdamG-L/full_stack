@@ -3,12 +3,12 @@ import { Diagnosis, OccupationalHealthcareEntry } from "../../../../types"
 import WorkIcon from '@mui/icons-material/Work'
 
 type Props = {
-    entry: OccupationalHealthcareEntry
-    diagnoses: Diagnosis[]
+    entry: OccupationalHealthcareEntry,
+    diagnoses: Diagnosis[],
 }
 
 const OccupationalHealthcareView = ({ entry, diagnoses }: Props) => (
-    <Card key={entry.id} sx={{ minWidth: 600, maxWidth: 600, m: 2 }}
+    <Card key={entry.id} sx={{ width: '100%', maxWidth: 600, m: 2 }}
         elevation={3}>
         <CardContent>
             <Typography variant="h6" sx={{
