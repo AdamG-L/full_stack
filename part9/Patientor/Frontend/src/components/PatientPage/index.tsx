@@ -2,16 +2,18 @@ import { Alert, Box, Button, Card, CardContent, Typography, } from "@mui/materia
 import MaleIcon from '@mui/icons-material/Male'
 import FemaleIcon from '@mui/icons-material/Female'
 import Person from '@mui/icons-material/Person'
-import { Diagnosis, Gender, Patient } from "../../../../types"
+import { Diagnosis, EntryType, Gender, Patient } from "../../../../types"
 import diagnosisService from "../../services/diagnoses"
 import { useEffect, useState } from "react"
 import EntryRenderer from "./EntryRenderer"
+import HealthCheckForm from "./HealthCheckForm"
 
 type Props = {
     patient: Patient | null | undefined
 }
 const PatientPage = ({ patient }: Props) => {
     const [diagnoses, setDiagnoses] = useState<Diagnosis[]>([])
+    const [formType, setFormType] = useState<EntryType | undefined>(undefined)
 
     useEffect(() => {
         const getDiagnoses = async () => {
@@ -44,10 +46,13 @@ const PatientPage = ({ patient }: Props) => {
                     </CardContent>
                 </Card>
                 <Box display="flex" flexDirection="column" gap={1}>
-                    <Button variant="contained" >Add Health Check</Button>
-                    <Button variant="contained" >Add Hospital Entry</Button>
-                    <Button variant="contained" >Add Occupational Entry</Button>
+                    <Button variant="contained" onClick={() => setFormType(EntryType.HealthCheck)}>Add Health Check</Button>
+                    <Button variant="contained" onClick={() => setFormType(EntryType.Hospital)}>Add Hospital Entry</Button>
+                    <Button variant="contained" onClick={() => setFormType(EntryType.OccupationalHealthcare)}>Add Occupational Entry</Button>
                 </Box>
+            </Box>
+            <Box mt={4} display="flex" justifyContent="center" flexDirection="column" alignItems="center" gap={2}>
+                <HealthCheckForm codes={diagnoses.map(d => d.code)}/>
             </Box>
             <Box mt={4} display="flex" justifyContent="center" flexDirection="column" alignItems="center" gap={2}>
                 {patient.entries.map(entry => (
