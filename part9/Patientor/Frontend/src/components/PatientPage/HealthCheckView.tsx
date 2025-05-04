@@ -8,7 +8,7 @@ type Props = {
 }
 
 const HealthCheckView = ({ entry, diagnoses }: Props) => (
-    <Card key={entry.id} sx={{ minWidth: 600, maxWidth: 600, m: 2 }}
+    <Card key={entry.id} sx={{ width: '100%', maxWidth: 600, m: 2 }}
         elevation={3}>
         <CardContent>
             <Typography variant="h6" sx={{
@@ -47,7 +47,7 @@ const HealthCheckView = ({ entry, diagnoses }: Props) => (
                 Health Check Rating
             </Typography>
             <Typography variant="body1" color="text.secondary">
-                {HealthCheckRating[entry.healthCheckRating]}
+                {entry.healthCheckRating}
             </Typography>
 
         </CardContent>
