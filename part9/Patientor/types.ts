@@ -19,10 +19,16 @@ const BaseEntrySchema = z.object({
 })
 
 export enum HealthCheckRating {
-    "Healthy" = 0,
-    "LowRisk" = 1,
-    "HighRisk" = 2,
-    "CriticalRisk" = 3,
+    "Healthy" = "Healthy",
+    "LowRisk" = "LowRisk",
+    "HighRisk" = "HighRisk",
+    "CriticalRisk" = "CriticalRisk",
+}
+
+export enum EntryType {
+    HealthCheck,
+    OccupationalHealthcare,
+    Hospital,
 }
 
 const SickLeaveSchema = z.object({
