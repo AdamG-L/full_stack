@@ -1,4 +1,4 @@
-import { Entry, NewPatient, Patient } from "../../../types"
+import { NewEntry, NewPatient, Patient } from "../../../types"
 import patients from "../../data/patients"
 import { v4 as uuid } from 'uuid'
 
@@ -15,13 +15,17 @@ const addPatient = (patient: NewPatient): Patient => {
     return addedPatient
 }
 
-const addEntry = (entry: Entry, id: string): Entry | null => {
+const addEntry = (entry: NewEntry, id: string): Patient | null => {
     const patient = patients.find(p => p.id === id)
     if(!patient) {
         return null
     }
-    patient.entries.push(entry)
-    return(entry)
+    const addedEntry = {
+        id: uuid(),
+        ...entry,
+    }
+    patient.entries.push(addedEntry)
+    return patient
 }
 
 const getEntry = (id: string): Patient | undefined => {

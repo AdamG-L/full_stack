@@ -1,6 +1,6 @@
 import express from 'express'
 import { Response, Request } from 'express'
-import { Entry, NewPatient, Patient } from '../../../types'
+import { NewEntry, NewPatient, Patient } from '../../../types'
 import patientService from '../services/patientService'
 import { newEntryParser, newPatientParser } from '../utils/middleware'
 
@@ -26,7 +26,7 @@ router.post('/', newPatientParser, (req: Request<unknown, unknown, NewPatient>,
   res.status(201).send(patient)
 })
 
-router.post('/:id/entries', newEntryParser, (req: Request<{ id: string }, unknown, Entry>, res: Response) => {
+router.post('/:id/entries', newEntryParser, (req: Request<{ id: string }, unknown, NewEntry>, res: Response) => {
   const patient = patientService.addEntry(req.body, req.params.id)
   if(!patient) {
     res.status(404).json({ error: 'Patient not found' })

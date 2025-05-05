@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 /******  Diagnosis type definitions ******/
-export interface Diagnosis{
+export interface Diagnosis {
     code: string,
     name: string,
     latin?: string,
@@ -57,22 +57,21 @@ const HospitalEntrySchema = BaseEntrySchema.extend({
     discharge: DischargeSchema,
 })
 
-export const EntrySchema = z.discriminatedUnion("type", [
+const EntrySchema = z.discriminatedUnion("type", [
     HealthCheckEntrySchema,
     OccupationalHealthcareEntrySchema,
     HospitalEntrySchema,
 ])
 
-export type SickLeave = z.infer<typeof SickLeaveSchema>
-export type Discharge = z.infer<typeof DischargeSchema>
-export type HealthCheckEntry = z.infer<typeof HealthCheckEntrySchema>
-export type OccupationalHealthcareEntry = z.infer<typeof OccupationalHealthcareEntrySchema>
-export type HospitalEntry = z.infer<typeof HospitalEntrySchema>
+export const NewEntrySchema = z.discriminatedUnion("type", [
+    HealthCheckEntrySchema.omit({id:true}),
+    OccupationalHealthcareEntrySchema.omit({id:true}),
+    HospitalEntrySchema.omit({id:true}),
+])
 
-export type Entry =
-    | HospitalEntry
-    | OccupationalHealthcareEntry
-    | HealthCheckEntry
+export type NewEntry = z.infer<typeof NewEntrySchema>
+
+export type Entry = z.infer<typeof EntrySchema>
 /*****************************************/
 
 
@@ -83,7 +82,7 @@ export enum Gender {
     Other = 'other'
 }
 
-export interface Patient{ 
+export interface Patient {
     id: string,
     name: string,
     dateOfBirth: string,
@@ -94,14 +93,30 @@ export interface Patient{
 }
 
 export const NewPatientSchema = z.object({
-    name: z.string(),
-    dateOfBirth: z.string(),
-    ssn: z.string(),
+    name: z.string().min(3),
+    dateOfBirth: z.string().min(10),
+    ssn: z.string().min(3),
     gender: z.nativeEnum(Gender),
-    occupation: z.string(),
-    entries: z.array(EntrySchema),
+    occupation: z.string().min(3),
+    //entries: z.array(EntrySchema),
 })
 export type PatientFormValues = Omit<Patient, "id" | "entries">;
 export type PatientPublic = Omit<Patient, 'ssn' | 'entries'>
 export type NewPatient = Omit<Patient, 'id'>
 /*****************************************/
+
+const HealthCheckFormSchema = HealthCheckEntrySchema.omit({ id: true })
+    .extend({
+        healthCheckRating: z.nativeEnum(HealthCheckRating).optional()
+    })
+export type HealthCheckFormValues = z.infer<typeof HealthCheckFormSchema>
+const HospitalFormSchema = HospitalEntrySchema.omit({ id: true })
+const OccupationalFormSchema = OccupationalHealthcareEntrySchema.omit({ id: true })
+const EntryFormSchema = z.discriminatedUnion("type", [
+    HealthCheckFormSchema,
+    HospitalFormSchema,
+    OccupationalFormSchema
+])
+export type EntryFormValues = z.infer<typeof EntryFormSchema>
+/******  Entry Form type definitions ******/
+

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 import {z} from 'zod'
-import { EntrySchema, NewPatientSchema } from "../../../types"
+import { NewEntrySchema, NewPatientSchema } from "../../../types"
 
 export const newPatientParser = (req: Request, _res: Response, next: NextFunction) => {
     try {
@@ -13,7 +13,7 @@ export const newPatientParser = (req: Request, _res: Response, next: NextFunctio
 
 export const newEntryParser = (req: Request, _res: Response, next: NextFunction) => {
     try {
-        EntrySchema.parse(req.body)
+        NewEntrySchema.parse(req.body)
         next()
     } catch (error: unknown) {
         next(error)
