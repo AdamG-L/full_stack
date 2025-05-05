@@ -23,11 +23,11 @@ const App = () => {
     void fetchPatientList()
   }, [])
 
-    // Grab url content
-    const match = useMatch('/patients/:id')
-    // Check if url content matches a patient id
-    const patient = match ? patients.find(p => p.id === match.params.id)
-      : null
+  // Grab url content
+  const match = useMatch('/patients/:id')
+  // Check if url content matches a patient id
+  const patient = match ? patients.find(p => p.id === match.params.id)
+    : undefined
 
   return (
     <div className="App">
@@ -41,7 +41,9 @@ const App = () => {
         <Divider hidden />
         <Routes>
           <Route path="/" element={<PatientListPage patients={patients} setPatients={setPatients} />} />
-          <Route path="/patients/:id" element={<PatientPage patient={patient}/>} />
+          {patient && (
+            <Route path="/patients/:id" element={<PatientPage patient={patient} />} />
+          )}
         </Routes>
       </Container>
     </div>
