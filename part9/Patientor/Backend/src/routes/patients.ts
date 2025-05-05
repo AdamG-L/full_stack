@@ -27,11 +27,11 @@ router.post('/', newPatientParser, (req: Request<unknown, unknown, NewPatient>,
 })
 
 router.post('/:id/entries', newEntryParser, (req: Request<{ id: string }, unknown, Entry>, res: Response) => {
-  const entry = patientService.addEntry(req.body, req.params.id)
-  if(!entry) {
+  const patient = patientService.addEntry(req.body, req.params.id)
+  if(!patient) {
     res.status(404).json({ error: 'Patient not found' })
   } else {
-    res.status(200).send(entry)
+    res.status(200).send(patient)
   }
 })
 
